@@ -2,10 +2,11 @@
   "name": "server",
   "version": "1.0.0",
   "description": "messenger server",
-  "main": "app.js",
+  "main": "app/app.js",
   "scripts": {
-    "start": "node -r dotenv/config app.js",
-    "dev": "nodemon -r dotenv/config app.js"
+    "start": "node -r dotenv/config app/app.js",
+    "dev": "nodemon -r dotenv/config app/app.js",
+    "prettier": "prettier --write app/**"
   },
   "author": "Yurii Kraev",
   "license": "ISC",
@@ -15,6 +16,7 @@
     "pg": "^8.7.3"
   },
   "devDependencies": {
-    "nodemon": "^2.0.15"
+    "nodemon": "^2.0.15",
+    "prettier": "^2.5.1"
   }
 }
