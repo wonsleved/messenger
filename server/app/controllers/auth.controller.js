@@ -15,7 +15,7 @@ class AuthController {
 
       return res.send(userData);
     } catch (e) {
-      console.log(e);
+      next(e);
     }
   }
 
@@ -31,7 +31,7 @@ class AuthController {
 
       return res.send(userData);
     } catch (e) {
-      console.log(e);
+      next(e);
     }
   }
 
@@ -46,7 +46,7 @@ class AuthController {
 
       return res.send(tokenData);
     } catch (e) {
-      console.log(e);
+      next(e);
     }
   }
 
@@ -56,7 +56,7 @@ class AuthController {
       const userData = await AuthService.delete(username);
       return res.send(userData);
     } catch (e) {
-      console.log(e);
+      next(e);
     }
   }
 
@@ -67,7 +67,7 @@ class AuthController {
       const userData = await AuthService.refresh(refreshToken);
       return res.send(userData);
     } catch (e) {
-      console.log(e);
+      next(e);
     }
   }
 
@@ -76,7 +76,7 @@ class AuthController {
       const users = await AuthService.getAllUsers();
       return res.send(users);
     } catch (e) {
-      console.log(e);
+      next(e);
     }
   }
 }

@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const db = require('../dbconfing/db-conntector');
 const TokenEntity = require('../dbentities/token.entity');
+const ApiErrorHandler = require('../exceptions/api.error-handler');
 
 class TokenService {
   static generateTokens(payload) {
@@ -11,19 +12,26 @@ class TokenService {
   }
 
   static validateRefreshToken(token) {
-    // add try catch
-    const userData = jwt.verify(token, process.env.JWT_REFRESH_SECRET);
-    return userData;
+    try {
+      const userData = jwt.verify(token, process.env.JWT_REFRESH_SECRET);
+      return userData;
+    } catch (e) {
+      ApiErrorHandler.logError(e);
+      return null;
+    }
   }
 
   static validateAccessToken(token) {
-    // add try catch
-    const userData = jwt.verify(token, process.env.JWT_ACCESS_SECRET);
-    return userData;
+    try {
+      const userData = jwt.verify(token, process.env.JWT_ACCESS_SECRET);
+      return userData;
+    } catch (e) {
+      ApiErrorHandler.logError(e);
+      return null;
+    }
   }
 
   static async saveRefreshToken(userId, refreshToken) {
-    // add try catch
     let tokenData = await TokenEntity.selectByUserId(userId);
 
     if (tokenData) {
