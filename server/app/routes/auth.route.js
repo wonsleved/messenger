@@ -1,7 +1,7 @@
 const Router = require('express').Router;
 const { body } = require('express-validator');
 const AuthController = require('../controllers/auth.controller');
-const { user } = require('../config/config');
+const authMiddleware = require('../middlerwares/auth.middleware');
 const {
   usernameValidation,
   nameValidation,
@@ -33,6 +33,6 @@ authRouter.post('/delete', AuthController.delete);
 authRouter.post('/refresh', AuthController.refresh);
 
 //  Fro test
-authRouter.get('/users', AuthController.getAllUsers);
+authRouter.get('/users', authMiddleware(), AuthController.getAllUsers);
 
 module.exports = authRouter;
