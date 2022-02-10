@@ -1,10 +1,16 @@
 const config = require('../config/config.js');
+const { validationResult } = require('express-validator');
+const ApiException = require('../exceptions/api.exception');
+const { INVALID_CREDENTIALS } = require('../exceptions/api.errors');
 
 const AuthService = require('../services/auth.service');
 
 class AuthController {
   static async register(req, res, next) {
     try {
+      //  validate errors
+      validateErrors(req);
+
       //  register
       const { username, name, password } = req.body;
       const userData = await AuthService.register(username, name, password);
@@ -21,6 +27,9 @@ class AuthController {
 
   static async login(req, res, next) {
     try {
+      //  validate errors
+      validateErrors(req);
+
       //  login
       const { username, password } = req.body;
       const userData = await AuthService.login(username, password);
@@ -78,6 +87,14 @@ class AuthController {
     } catch (e) {
       next(e);
     }
+  }
+}
+
+function validateErrors(req) {
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    throw ApiException.badRequest(INVALID_CREDENTIALS, errors);
   }
 }
 
