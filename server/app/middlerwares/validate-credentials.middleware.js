@@ -18,7 +18,7 @@ module.exports = {
   nameValidation: function () {
     return [
       body('name').trim(),
-      body('username', 'Name is required').exists(),
+      body('name', 'Name is required').exists(),
       body('name', 'Name must not be empty').notEmpty(),
       body(
         'name',
@@ -33,10 +33,9 @@ module.exports = {
   passwordValidation: function () {
     return [
       body('password').trim(),
-      body('username', 'Password is required').exists(),
+      body('password', 'Password is required').exists(),
       body('password', 'Password must not be empty').notEmpty(),
-      body(
-        'password',
+      body('password',
         `Password must be between ${user.password.minLength} and ${user.password.maxLength} characters long`,
       ).isLength({ min: user.password.minLength, max: user.password.maxLength }),
     ];
