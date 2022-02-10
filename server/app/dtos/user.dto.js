@@ -8,4 +8,4 @@ module.exports = class UserDto {
     this.name = model.name;
     this.id = model.id;
   }
-}
+};

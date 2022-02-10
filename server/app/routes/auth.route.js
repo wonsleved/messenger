@@ -17,5 +17,4 @@ authRouter.post('/refresh', AuthController.refresh);
 //  Fro test
 authRouter.get('/users', AuthController.getAllUsers);
 
-
 module.exports = authRouter;

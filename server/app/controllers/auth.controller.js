@@ -2,12 +2,11 @@ const config = require('../config/config.js');
 
 const AuthService = require('../services/auth.service');
 
-
 class AuthController {
   static async register(req, res, next) {
     try {
       //  register
-      const {username, name, password} = req.body;
+      const { username, name, password } = req.body;
       const userData = await AuthService.register(username, name, password);
 
       //  add refresh to cookie;
@@ -23,7 +22,7 @@ class AuthController {
   static async login(req, res, next) {
     try {
       //  login
-      const {username, password} = req.body;
+      const { username, password } = req.body;
       const userData = await AuthService.login(username, password);
 
       //  add refresh to cookie;

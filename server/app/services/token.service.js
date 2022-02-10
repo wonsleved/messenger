@@ -1,19 +1,11 @@
 const jwt = require('jsonwebtoken');
-const db  = require('../dbconfing/db-conntector');
+const db = require('../dbconfing/db-conntector');
 const TokenEntity = require('../dbentities/token.entity');
 
 class TokenService {
   static generateTokens(payload) {
-    const accessToken = jwt.sign(
-      payload,
-      process.env.JWT_ACCESS_SECRET,
-      { expiresIn: '30m' }
-    )
-    const refreshToken = jwt.sign(
-      payload,
-      process.env.JWT_REFRESH_SECRET,
-      { expiresIn: '30d' }
-    )
+    const accessToken = jwt.sign(payload, process.env.JWT_ACCESS_SECRET, { expiresIn: '30m' });
+    const refreshToken = jwt.sign(payload, process.env.JWT_REFRESH_SECRET, { expiresIn: '30d' });
 
     return { accessToken, refreshToken };
   }
@@ -59,12 +51,10 @@ class TokenService {
 
   static async deleteTokenByUserId(userId) {
     let tokenData = await TokenEntity.selectByUserId(userId);
-    if (tokenData)
-      await TokenEntity.deleteRefreshToken(tokenData.refreshToken);
+    if (tokenData) await TokenEntity.deleteRefreshToken(tokenData.refreshToken);
 
     return tokenData;
   }
-
 }
 
 module.exports = TokenService;
