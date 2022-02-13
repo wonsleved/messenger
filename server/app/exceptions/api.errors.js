@@ -6,5 +6,5 @@ module.exports = {
   CONTACT_ALREADY_EXISTS: 'User already added to contacts',
   CONTACT_NOT_EXIST: 'No such user in contacts',
   CONTACT_ADD_YOURSELF: 'Cannot add yourself',
-  CONTACT_REMOVE_YOURSELF: 'Cannot remove yourself'
+  CONTACT_REMOVE_YOURSELF: 'Cannot remove yourself',
 };

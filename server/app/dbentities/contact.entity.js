@@ -6,7 +6,7 @@ class ContactEntity {
 
     const queryResult = await db.query(
       'INSERT INTO "contact" (user_id, contact_id, created_at) VALUES($1, $2, $3);',
-      [userId, contactId, date]
+      [userId, contactId, date],
     );
 
     return queryResult;
@@ -15,17 +15,16 @@ class ContactEntity {
   static async getContact(userId, contactId) {
     const queryResult = await db.query(
       'SELECT * FROM "contact" WHERE user_id=$1 AND contact_id=$2;',
-      [userId, contactId]
+      [userId, contactId],
     );
 
     return queryResult.rows[0];
   }
 
   static async getAllContacts(userId) {
-    const queryResult = await db.query(
-      'SELECT contact_id FROM "contact" WHERE user_id=$1;',
-      [userId]
-    );
+    const queryResult = await db.query('SELECT contact_id FROM "contact" WHERE user_id=$1;', [
+      userId,
+    ]);
 
     return queryResult.rows;
   }
@@ -33,7 +32,7 @@ class ContactEntity {
   static async removeContact(userId, contactId) {
     const queryResult = await db.query(
       'DELETE FROM "contact" WHERE user_id=$1 AND contact_id=$2;',
-      [userId, contactId]
+      [userId, contactId],
     );
 
     return queryResult;

@@ -56,7 +56,7 @@ class UserController {
       const userId = req.user.id;
       const { contactId } = req.body;
       await UserService.addContact(userId, contactId);
-      return res.send("Success");
+      return res.send('Success');
     } catch (e) {
       next(e);
     }
@@ -69,7 +69,7 @@ class UserController {
       const userId = req.user.id;
       const { contactId } = req.body;
       await UserService.removeContact(userId, contactId);
-      return res.send("Success");
+      return res.send('Success');
     } catch (e) {
       next(e);
     }

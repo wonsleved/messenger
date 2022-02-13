@@ -11,7 +11,7 @@ class UserEntity {
       'INSERT INTO "user" ' +
         '(id, username, name, password, is_online, created_at, updated_at) ' +
         'VALUES($1, $2, $3, $4, $5, $6, $6);',
-      [uuid, username, name, password, idOnline, date]
+      [uuid, username, name, password, idOnline, date],
     );
 
     return queryResult;
