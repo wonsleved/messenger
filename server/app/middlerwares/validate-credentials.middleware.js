@@ -35,7 +35,8 @@ module.exports = {
       body('password').trim(),
       body('password', 'Password is required').exists(),
       body('password', 'Password must not be empty').notEmpty(),
-      body('password',
+      body(
+        'password',
         `Password must be between ${user.password.minLength} and ${user.password.maxLength} characters long`,
       ).isLength({ min: user.password.minLength, max: user.password.maxLength }),
     ];
