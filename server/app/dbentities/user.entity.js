@@ -11,7 +11,7 @@ class UserEntity {
       'INSERT INTO "user" ' +
         '(id, username, name, password, is_online, created_at, updated_at) ' +
         'VALUES($1, $2, $3, $4, $5, $6, $6);',
-      [uuid, username, name, password, idOnline, date],
+      [uuid, username, name, password, idOnline, date]
     );
 
     return queryResult;
@@ -25,6 +25,11 @@ class UserEntity {
 
   static async findByUsername(username) {
     const queryResult = await db.query('SELECT * FROM "user" WHERE username=$1', [username]);
+    return queryResult.rows[0];
+  }
+
+  static async findById(userId) {
+    const queryResult = await db.query('SELECT * FROM "user" WHERE id=$1', [userId]);
     return queryResult.rows[0];
   }
 }
