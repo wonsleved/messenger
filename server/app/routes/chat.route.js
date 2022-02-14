@@ -3,6 +3,7 @@ const ChatController = require('../controllers/chat.controller');
 const { body } = require('express-validator');
 const { param } = require('express-validator');
 const { chat } = require('../config/config');
+const chatAccessMiddleware = require('../middlerwares/chat-access.middleware');
 
 const chatRouter = new Router({
   strict: true,
@@ -10,6 +11,7 @@ const chatRouter = new Router({
 
 chatRouter.get(
   '/data/:chatId',
+  chatAccessMiddleware(),
   param('chatId', 'Chat id must be UUID v4').isUUID(4),
   ChatController.getChatData,
 );
@@ -17,6 +19,7 @@ chatRouter.get(
 chatRouter.get(
   '/participants/:chatId',
   param('chatId', 'Chat id must be UUID v4').isUUID(4),
+  chatAccessMiddleware(),
   ChatController.getChatParticipants,
 );
 
@@ -39,6 +42,7 @@ chatRouter.post(
 chatRouter.delete(
   '/',
   body('chatId', 'Chat id must be UUID v4').isUUID(4),
+  chatAccessMiddleware(),
   ChatController.deleteChat,
 );
 
@@ -46,6 +50,7 @@ chatRouter.post(
   '/add',
   body('userId', 'Chat id must be UUID v4').isUUID(4),
   body('chatId', 'Chat id must be UUID v4').isUUID(4),
+  chatAccessMiddleware(),
   ChatController.addUserToChat,
 );
 
@@ -53,12 +58,14 @@ chatRouter.delete(
   '/remove',
   body('userId', 'Chat id must be UUID v4').isUUID(4),
   body('chatId', 'Chat id must be UUID v4').isUUID(4),
+  chatAccessMiddleware(),
   ChatController.removeUserFromChat,
 );
 
 chatRouter.post(
   '/leave',
   body('chatId', 'Chat id must be UUID v4').isUUID(4),
+  chatAccessMiddleware(),
   ChatController.leaveChat,
 );
 

@@ -21,10 +21,6 @@ const {
 
 class ChatService {
   static async getChatData(userId, chatId) {
-    // check if chat exists
-    const chatExists = await ChatEntity.findUserChat(userId, chatId);
-    if (!chatExists) throw ApiException.badRequest(NO_ACCESS);
-
     // get chat data
     const chatData = await ChatEntity.getChatData(chatId);
 
@@ -32,10 +28,6 @@ class ChatService {
   }
 
   static async getChatParticipants(userId, chatId) {
-    // check if not exist user not in chat
-    const chatExists = await ChatEntity.findUserChat(userId, chatId);
-    if (!chatExists) throw ApiException.badRequest(NO_ACCESS);
-
     // get chat participants
     const chatParticipants = await ChatEntity.getChatParticipants(chatId);
 
@@ -76,10 +68,6 @@ class ChatService {
   }
 
   static async deleteChat(userId, chatId) {
-    // check if chat exists (cannot delete after chat logout)
-    const chatExists = await ChatEntity.findUserChat(userId, chatId);
-    if (!chatExists) throw ApiException.badRequest(NO_ACCESS);
-
     // get chat data
     const chatData = await ChatEntity.getChatData(chatId);
     // forbid delete private chats
@@ -95,10 +83,6 @@ class ChatService {
 
   static async addUserToChat(userId, chatId, userToAddId) {
     if (userId === userToAddId) throw ApiException.badRequest(CHAT_ADD_YOURSELF);
-
-    // check if chat exists (cannot add after chat logout)
-    const chatExists = await ChatEntity.findUserChat(userId, chatId);
-    if (!chatExists) throw ApiException.badRequest(NO_ACCESS);
 
     // check if user to add exist
     const userToAddExists = await UserEntity.findById(userToAddId);
@@ -122,10 +106,6 @@ class ChatService {
   static async removeUserFromChat(userId, chatId, userToRemoveId) {
     if (userId === userToRemoveId) throw ApiException.badRequest(CHAT_REMOVE_YOURSELF);
 
-    // check if chat exists (cannot delete after chat logout)
-    const chatExists = await ChatEntity.findUserChat(userId, chatId);
-    if (!chatExists) throw ApiException.badRequest(NO_ACCESS);
-
     // check if user to remove exist
     const userToAddExists = await UserEntity.findById(userToRemoveId);
     if (!userToAddExists) throw ApiException.badRequest(USER_NOT_EXIST);
@@ -148,9 +128,6 @@ class ChatService {
   }
 
   static async leaveChat(userId, chatId) {
-    const chatExists = await ChatEntity.findUserChat(userId, chatId);
-    if (!chatExists) throw ApiException.badRequest(NO_ACCESS);
-
     // get chat data
     const chatData = await ChatEntity.getChatData(chatId);
     // forbid logout from private chats
