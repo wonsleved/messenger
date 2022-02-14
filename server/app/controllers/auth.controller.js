@@ -71,9 +71,13 @@ class AuthController {
 
   static async refresh(req, res, next) {
     try {
-      // cookie
+      // get refresh from cookie
       const { refreshToken } = req.cookies;
       const userData = await AuthService.refresh(refreshToken);
+
+      //  update refresh in cookie
+      const cookieOptions = config.cookieOptions.refreshToken;
+      res.cookie('refreshToken', userData.refreshToken, cookieOptions); // 30 days
       return res.send(userData);
     } catch (e) {
       next(e);
