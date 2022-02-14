@@ -75,7 +75,7 @@ class AuthController {
       const { refreshToken } = req.cookies;
       const userData = await AuthService.refresh(refreshToken);
 
-      //  update refresh in cookie;
+      //  update refresh in cookie
       const cookieOptions = config.cookieOptions.refreshToken;
       res.cookie('refreshToken', userData.refreshToken, cookieOptions); // 30 days
       return res.send(userData);
