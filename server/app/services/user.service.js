@@ -1,7 +1,7 @@
 const db = require('../dbconfing/db-conntector');
 const UserEntity = require('../dbentities/user.entity');
 const ContactEntity = require('../dbentities/contact.entity');
-const ConversationEntity = require('../dbentities/conversation.entity');
+const ChatEntity = require('../dbentities/chat.entity');
 const UserDto = require('../dtos/user.dto');
 const { validationResult } = require('express-validator');
 const ApiException = require('../exceptions/api.exception');
@@ -40,7 +40,7 @@ class UserService {
     const userContactsId = await ContactEntity.getAllContacts(userId);
     let userContacts = [];
 
-    for (let userObj of userContactsId) {
+    for (let userObj of userContactsId) { // change query in db entity
       let {
         id: userId,
         name,
@@ -55,7 +55,7 @@ class UserService {
   }
 
   static async getChats(userId) {
-    const userChats = await ConversationEntity.getUserChats(userId);
+    const userChats = await ChatEntity.getUserAllChats(userId);
 
     return userChats;
   }
