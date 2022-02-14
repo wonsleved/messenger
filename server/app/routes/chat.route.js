@@ -4,46 +4,62 @@ const { body } = require('express-validator');
 const { param } = require('express-validator');
 const { chat } = require('../config/config');
 
-
 const chatRouter = new Router({
   strict: true,
 });
 
-chatRouter.get('/data/:chatId',
+chatRouter.get(
+  '/data/:chatId',
   param('chatId', 'Chat id must be UUID v4').isUUID(4),
-  ChatController.getChatData);
+  ChatController.getChatData,
+);
 
-chatRouter.get('/participants/:chatId',
+chatRouter.get(
+  '/participants/:chatId',
   param('chatId', 'Chat id must be UUID v4').isUUID(4),
-  ChatController.getChatParticipants);
+  ChatController.getChatParticipants,
+);
 
-chatRouter.post('/new',
+chatRouter.post(
+  '/new',
   body('title', 'Title must exist').exists().trim(),
-  body('title', `Title length must be between ${chat.title.minLength} and ${chat.title.maxLength} characters long`)
-    .isLength({min: chat.title.minLength, max: chat.title.maxLength}),
-  ChatController.createChat);
+  body(
+    'title',
+    `Title length must be between ${chat.title.minLength} and ${chat.title.maxLength} characters long`,
+  ).isLength({ min: chat.title.minLength, max: chat.title.maxLength }),
+  ChatController.createChat,
+);
 
-chatRouter.post('/new/:userId',
+chatRouter.post(
+  '/new/:userId',
   param('userId', 'Chat id must be UUID v4').isUUID(4),
-  ChatController.createPrivateChat);
+  ChatController.createPrivateChat,
+);
 
-chatRouter.delete('/',
+chatRouter.delete(
+  '/',
   body('chatId', 'Chat id must be UUID v4').isUUID(4),
-  ChatController.deleteChat);
+  ChatController.deleteChat,
+);
 
-chatRouter.post('/add',
+chatRouter.post(
+  '/add',
   body('userId', 'Chat id must be UUID v4').isUUID(4),
   body('chatId', 'Chat id must be UUID v4').isUUID(4),
-  ChatController.addUserToChat);
+  ChatController.addUserToChat,
+);
 
-chatRouter.delete('/remove',
+chatRouter.delete(
+  '/remove',
   body('userId', 'Chat id must be UUID v4').isUUID(4),
   body('chatId', 'Chat id must be UUID v4').isUUID(4),
-  ChatController.removeUserFromChat);
+  ChatController.removeUserFromChat,
+);
 
-chatRouter.post('/leave',
+chatRouter.post(
+  '/leave',
   body('chatId', 'Chat id must be UUID v4').isUUID(4),
-  ChatController.leaveChat);
-
+  ChatController.leaveChat,
+);
 
 module.exports = chatRouter;

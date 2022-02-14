@@ -16,8 +16,8 @@ module.exports = {
   chat: {
     title: {
       minLength: 1,
-      maxLength: 40
-    }
+      maxLength: 40,
+    },
   },
   cookieOptions: {
     refreshToken: {

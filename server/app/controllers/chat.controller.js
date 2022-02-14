@@ -82,7 +82,6 @@ class ChatController {
       const userToAdd = req.body.userId;
       const chatData = await ChatService.addUserToChat(userId, chatId, userToAdd);
       return res.json(chatData);
-
     } catch (e) {
       next(e);
     }

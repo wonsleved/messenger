@@ -40,7 +40,8 @@ class UserService {
     const userContactsId = await ContactEntity.getAllContacts(userId);
     let userContacts = [];
 
-    for (let userObj of userContactsId) { // change query in db entity
+    for (let userObj of userContactsId) {
+      // change query in db entity
       let {
         id: userId,
         name,
