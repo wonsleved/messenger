@@ -1,6 +1,7 @@
 const Router = require('express').Router;
 const { body } = require('express-validator');
 const AuthController = require('../controllers/auth.controller');
+const validateErrorsMiddleware = require('../middlerwares/validate-errors.middleware');
 const authMiddleware = require('../middlerwares/auth.middleware');
 const {
   usernameValidation,
@@ -15,6 +16,7 @@ authRouter.post(
   ...usernameValidation(),
   ...nameValidation(),
   ...passwordValidation(),
+  validateErrorsMiddleware(),
   AuthController.register,
 );
 
@@ -22,6 +24,7 @@ authRouter.post(
   '/login',
   body('username', 'Username is required').exists().trim().toLowerCase(),
   body('password', 'Password is required').exists().trim(),
+  validateErrorsMiddleware(),
   AuthController.login,
 );
 
