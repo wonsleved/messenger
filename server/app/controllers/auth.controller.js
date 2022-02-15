@@ -1,7 +1,4 @@
 const config = require('../config/config.js');
-const { validationResult } = require('express-validator');
-const ApiException = require('../exceptions/api.exception');
-const { INVALID_CREDENTIALS } = require('../exceptions/api.errors');
 
 const AuthService = require('../services/auth.service');
 
@@ -85,14 +82,6 @@ class AuthController {
     } catch (e) {
       next(e);
     }
-  }
-}
-
-function validateErrors(req) {
-  const errors = validationResult(req);
-
-  if (!errors.isEmpty()) {
-    throw ApiException.badRequest(INVALID_CREDENTIALS, errors);
   }
 }
 
