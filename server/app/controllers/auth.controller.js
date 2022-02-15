@@ -8,9 +8,6 @@ const AuthService = require('../services/auth.service');
 class AuthController {
   static async register(req, res, next) {
     try {
-      //  validate errors
-      validateErrors(req);
-
       //  register
       const { username, name, password } = req.body;
       const userData = await AuthService.register(username, name, password);
@@ -27,9 +24,6 @@ class AuthController {
 
   static async login(req, res, next) {
     try {
-      //  validate errors
-      validateErrors(req);
-
       //  login
       const { username, password } = req.body;
       const userData = await AuthService.login(username, password);
