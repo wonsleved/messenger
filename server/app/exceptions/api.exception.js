@@ -1,4 +1,4 @@
-const { UNAUTHORIZED_ERROR, NO_ACCESS} = require('./api.errors');
+const { UNAUTHORIZED_ERROR, NO_ACCESS } = require('./api.errors');
 
 class ApiException extends Error {
   status;

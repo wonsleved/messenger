@@ -3,7 +3,8 @@ const { v4: uuidv4 } = require('uuid');
 
 class ChatEntity {
   static async getUserAllChats(userId) {
-    const queryResult = await db.query(`
+    const queryResult = await db.query(
+      `
         SELECT title, is_private AS "isPrivate", conversation_id AS "id", creator_id AS "creatorId", updated_at As "updatedAt"
         FROM "participant" INNER JOIN "conversation" 
         on conversation.id = participant.conversation_id
@@ -23,15 +24,15 @@ class ChatEntity {
 --         WHERE is_private=true
 --         AND user_id!=$1;
         `,
-      [userId]
+      [userId],
     );
 
     return queryResult.rows;
   }
 
   static async getUserChat(userId, chatId) {
-
-    const queryResult = await db.query(`
+    const queryResult = await db.query(
+      `
         SELECT title, is_private AS "isPrivate", conversation_id AS "id", creator_id AS "creatorId", updated_at As "updatedAt"
         FROM "participant" INNER JOIN "conversation"
         on conversation.id = participant.conversation_id
@@ -44,7 +45,8 @@ class ChatEntity {
   }
 
   static async getChatData(chatId) {
-    const queryResult = await db.query(`
+    const queryResult = await db.query(
+      `
       SELECT title, is_private AS "isPrivate",
              id, creator_id AS "creatorId", updated_at AS "updatedAt"
       FROM "conversation" WHERE id=$1;
@@ -56,8 +58,8 @@ class ChatEntity {
   }
 
   static async getChatParticipants(chatId) {
-
-    const queryResult = await db.query(`
+    const queryResult = await db.query(
+      `
       SELECT user_id AS "userId", username, name, 
              last_visit_at AS "lastVisitAt", is_online AS "isOnline", updated_at AS "updatedAt"
       FROM "participant" INNER JOIN "user" 
@@ -71,8 +73,8 @@ class ChatEntity {
   }
 
   static async getPrivateChatAddressee(userId, chatId) {
-
-    const queryResult = await db.query(`
+    const queryResult = await db.query(
+      `
         SELECT id AS "userId", name, username, 
                last_visit_at AS "lastVisitAt", is_online AS "isOnline", updated_at AS "updatedAt"
         FROM "participant" INNER JOIN "user" 
@@ -86,8 +88,8 @@ class ChatEntity {
   }
 
   static async findUserChat(userId, chatId) {
-
-    const queryResult = await db.query(`
+    const queryResult = await db.query(
+      `
         SELECT user_id AS userId, conversation_id AS conversationId 
         FROM "participant" WHERE user_id=$1 AND conversation_id=$2;
         `,
@@ -101,7 +103,8 @@ class ChatEntity {
     const date = new Date().toISOString();
     const chatId = uuidv4();
 
-    await db.query(`
+    await db.query(
+      `
         INSERT INTO "conversation" (id, is_private, title, creator_id, created_at) VALUES ($1, $2, $3, $4, $5);
         `,
       [chatId, isPrivate, title, userId, date],

@@ -50,7 +50,7 @@ class AuthService {
 
     return { user: userData, ...tokens };
   }
-forbidden
+  forbidden;
   static async delete(username) {
     //  check if user exists
     let userDataQueryResult = await UserEntity.findByUsername(username);

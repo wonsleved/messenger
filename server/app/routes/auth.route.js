@@ -31,10 +31,12 @@ authRouter.post(
 authRouter.post('/logout', AuthController.logout);
 
 //  For test
-authRouter.post('/delete',
+authRouter.post(
+  '/delete',
   body('username').exists().trim().toLowerCase(),
   validateErrorsMiddleware(),
-  AuthController.delete);
+  AuthController.delete,
+);
 
 authRouter.post('/refresh', AuthController.refresh);
 

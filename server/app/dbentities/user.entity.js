@@ -7,7 +7,8 @@ class UserEntity {
     const date = new Date().toISOString();
     const idOnline = false;
 
-    const queryResult = await db.query(`
+    const queryResult = await db.query(
+      `
         INSERT INTO "user" 
         (id, username, name, password, is_online, created_at, updated_at) 
         VALUES($1, $2, $3, $4, $5, $6, $6);
@@ -19,33 +20,38 @@ class UserEntity {
   }
 
   static async deleteByUsername(username) {
-    const queryResult = await db.query(`
+    const queryResult = await db.query(
+      `
         DELETE FROM "user" WHERE username=$1
         `,
-      [username]);
+      [username],
+    );
 
     return queryResult;
   }
 
   static async findByUsername(username) {
-
-    const queryResult = await db.query(`
+    const queryResult = await db.query(
+      `
         SELECT id, username, name, is_online AS "isOnline", last_visit_at AS "lastVisitAt", password
         FROM "user" 
         WHERE username=$1
         `,
-      [username]);
+      [username],
+    );
 
     return queryResult.rows[0];
   }
 
   static async findById(userId) {
-    const queryResult = await db.query(`
+    const queryResult = await db.query(
+      `
         SELECT id, username, name, is_online AS "isOnline", last_visit_at AS "lastVisitAt", password
         FROM "user" 
         WHERE id=$1;
         `,
-      [userId]);
+      [userId],
+    );
     return queryResult.rows[0];
   }
 }

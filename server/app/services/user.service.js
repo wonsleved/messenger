@@ -7,7 +7,6 @@ const ApiException = require('../exceptions/api.exception');
 const ChatDto = require('../dtos/chat.dto');
 const PublicUserDto = require('../dtos/public-user.dto');
 
-
 const {
   CONTACT_ALREADY_EXISTS,
   CONTACT_NOT_EXIST,
@@ -34,9 +33,7 @@ class UserService {
   }
 
   static async getChats(userId) {
-    const userChats = (await ChatEntity.getUserAllChats(userId))
-      .map(chat => new ChatDto(chat));
-
+    const userChats = (await ChatEntity.getUserAllChats(userId)).map((chat) => new ChatDto(chat));
 
     return userChats;
   }
