@@ -3,24 +3,40 @@ const { v4: uuidv4 } = require('uuid');
 
 class ChatEntity {
   static async getUserAllChats(userId) {
-    const queryResult = await db.query(
-      'SELECT title, is_private AS "isPrivate", conversation_id AS "conversationId", creator_id AS "creatorId"' +
-        'FROM "participant" INNER JOIN "conversation" ' +
-        'on conversation.id = participant.conversation_id ' +
-        'AND user_id=$1',
-      [userId],
+    const queryResult = await db.query(`
+        SELECT title, is_private AS "isPrivate", conversation_id AS "id", creator_id AS "creatorId", updated_at As "updatedAt"
+        FROM "participant" INNER JOIN "conversation" 
+        on conversation.id = participant.conversation_id
+        AND user_id=$1;
+--         WHERE is_private=false
+--         UNION
+--         SELECT username AS "title", is_private AS "isPrivate", conversation_id AS "id", creator_id AS "creatorId", updated_at As "updatedAt"
+--         FROM "participant" p 
+--             INNER JOIN (
+--             SELECT is_private, creator_id, updated_at, id
+--             FROM "participant" INNER JOIN "conversation" on participant.conversation_id = conversation.id
+--             WHERE user_id=$1
+--         ) conv on conv.id = p.conversation_id
+--         INNER JOIN (
+--             SELECT username, id AS "userId" FROM "user"
+--             ) u on u."userId" = user_id
+--         WHERE is_private=true
+--         AND user_id!=$1;
+        `,
+      [userId]
     );
 
     return queryResult.rows;
   }
 
   static async getUserChat(userId, chatId) {
-    // delete later?
-    const queryResult = await db.query(
-      'SELECT title, is_private AS "isPrivate", conversation_id AS "conversationId", creator_id AS "creatorId" ' +
-        'FROM "participant" INNER JOIN "conversation" ' +
-        'on conversation.id = participant.conversation_id ' +
-        'AND user_id=$1 AND conversation_id=$2;',
+
+    const queryResult = await db.query(`
+        SELECT title, is_private AS "isPrivate", conversation_id AS "id", creator_id AS "creatorId", updated_at As "updatedAt"
+        FROM "participant" INNER JOIN "conversation"
+        on conversation.id = participant.conversation_id
+        AND user_id=$1 AND conversation_id=$2;
+        `,
       [userId, chatId],
     );
 
@@ -28,10 +44,11 @@ class ChatEntity {
   }
 
   static async getChatData(chatId) {
-    const queryResult = await db.query(
-      'SELECT title, is_private AS "isPrivate", ' +
-        'id AS "conversationId", creator_id AS "creatorId" ' +
-        'FROM "conversation" WHERE id=$1;',
+    const queryResult = await db.query(`
+      SELECT title, is_private AS "isPrivate",
+             id, creator_id AS "creatorId", updated_at AS "updatedAt"
+      FROM "conversation" WHERE id=$1;
+      `,
       [chatId],
     );
 
@@ -39,21 +56,41 @@ class ChatEntity {
   }
 
   static async getChatParticipants(chatId) {
-    const queryResult = await db.query(
-      'SELECT user_id AS "userId", username, name, last_visit_at AS "lastVisitAt", is_online AS "isOnline" ' +
-        'FROM "participant" INNER JOIN "user" ' +
-        'on "participant".user_id = "user".id ' +
-        'WHERE conversation_id=$1',
+
+    const queryResult = await db.query(`
+      SELECT user_id AS "userId", username, name, 
+             last_visit_at AS "lastVisitAt", is_online AS "isOnline", updated_at AS "updatedAt"
+      FROM "participant" INNER JOIN "user" 
+      on "participant".user_id = "user".id 
+      WHERE conversation_id=$1;
+      `,
       [chatId],
     );
 
     return queryResult.rows;
   }
 
+  static async getPrivateChatAddressee(userId, chatId) {
+
+    const queryResult = await db.query(`
+        SELECT id AS "userId", name, username, 
+               last_visit_at AS "lastVisitAt", is_online AS "isOnline", updated_at AS "updatedAt"
+        FROM "participant" INNER JOIN "user" 
+            on participant.user_id = "user".id
+        WHERE user_id!=$1 AND conversation_id=$2;
+        `,
+      [userId, chatId],
+    );
+
+    return queryResult.rows[0];
+  }
+
   static async findUserChat(userId, chatId) {
-    const queryResult = await db.query(
-      'SELECT user_id AS userId, conversation_id AS conversationId ' +
-        'FROM "participant" WHERE user_id=$1 AND conversation_id=$2;',
+
+    const queryResult = await db.query(`
+        SELECT user_id AS userId, conversation_id AS conversationId 
+        FROM "participant" WHERE user_id=$1 AND conversation_id=$2;
+        `,
       [userId, chatId],
     );
 
@@ -64,8 +101,9 @@ class ChatEntity {
     const date = new Date().toISOString();
     const chatId = uuidv4();
 
-    await db.query(
-      'INSERT INTO "conversation" (id, is_private, title, creator_id, created_at) VALUES ($1, $2, $3, $4, $5);',
+    await db.query(`
+        INSERT INTO "conversation" (id, is_private, title, creator_id, created_at) VALUES ($1, $2, $3, $4, $5);
+        `,
       [chatId, isPrivate, title, userId, date],
     );
 

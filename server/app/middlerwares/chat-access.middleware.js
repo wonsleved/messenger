@@ -9,10 +9,10 @@ module.exports = () =>
       validateErrors(req);
 
       const userId = req.user.id;
-      const chatId = req.body.chatId;
+      const chatId = req.body.chatId ?? req.params.chatId;
 
       const chatExists = await ChatEntity.findUserChat(userId, chatId);
-      if (!chatExists) throw ApiException.badRequest(NO_ACCESS);
+      if (!chatExists) throw ApiException.accessDenied();
 
       next();
     } catch (e) {

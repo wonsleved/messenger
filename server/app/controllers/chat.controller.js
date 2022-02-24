@@ -1,15 +1,8 @@
-const config = require('../config/config.js');
-const { validationResult } = require('express-validator');
-const ApiException = require('../exceptions/api.exception');
-const { INVALID_CREDENTIALS } = require('../exceptions/api.errors');
-
 const ChatService = require('../services/chat.service');
 
 class ChatController {
   static async getChatData(req, res, next) {
     try {
-      validateErrors(req);
-
       const userId = req.user.id;
       const chatId = req.params.chatId;
       const chatData = await ChatService.getChatData(userId, chatId);
@@ -19,10 +12,19 @@ class ChatController {
     }
   }
 
+  static async getPrivateChatAddressee(req, res, next) {
+    try {
+      const userId = req.user.id;
+      const chatId = req.params.chatId;
+      const chatData = await ChatService.getPrivateChatAddressee(userId, chatId);
+      return res.json(chatData);
+    } catch (e) {
+      next(e);
+    }
+  }
+
   static async getChatParticipants(req, res, next) {
     try {
-      validateErrors(req);
-
       const userId = req.user.id;
       const chatId = req.params.chatId;
       const chatParticipants = await ChatService.getChatParticipants(userId, chatId);
@@ -34,8 +36,6 @@ class ChatController {
 
   static async createChat(req, res, next) {
     try {
-      validateErrors(req);
-
       const userId = req.user.id;
       const { title } = req.body;
 
@@ -49,8 +49,6 @@ class ChatController {
 
   static async createPrivateChat(req, res, next) {
     try {
-      validateErrors(req);
-
       const creatorId = req.user.id;
       const userId = req.params.userId;
       const chatData = await ChatService.createPrivateChat(creatorId, userId);
@@ -62,8 +60,6 @@ class ChatController {
 
   static async deleteChat(req, res, next) {
     try {
-      validateErrors(req);
-
       const userId = req.user.id;
       const chatId = req.body.chatId;
       const chatData = await ChatService.deleteChat(userId, chatId);
@@ -75,8 +71,6 @@ class ChatController {
 
   static async addUserToChat(req, res, next) {
     try {
-      validateErrors(req);
-
       const userId = req.user.id;
       const chatId = req.body.chatId;
       const userToAdd = req.body.userId;
@@ -89,8 +83,6 @@ class ChatController {
 
   static async removeUserFromChat(req, res, next) {
     try {
-      validateErrors(req);
-
       const userId = req.user.id;
       const chatId = req.body.chatId;
       const userToRemoveId = req.body.userId;
@@ -103,8 +95,6 @@ class ChatController {
 
   static async leaveChat(req, res, next) {
     try {
-      validateErrors(req);
-
       const userId = req.user.id;
       const chatId = req.body.chatId;
       const chatData = await ChatService.leaveChat(userId, chatId);
@@ -112,14 +102,6 @@ class ChatController {
     } catch (e) {
       next(e);
     }
-  }
-}
-
-function validateErrors(req) {
-  const errors = validationResult(req);
-
-  if (!errors.isEmpty()) {
-    throw ApiException.badRequest(INVALID_CREDENTIALS, errors);
   }
 }
 
