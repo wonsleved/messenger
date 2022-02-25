@@ -9,20 +9,6 @@ class ChatEntity {
         FROM "participant" INNER JOIN "conversation" 
         on conversation.id = participant.conversation_id
         AND user_id=$1;
---         WHERE is_private=false
---         UNION
---         SELECT username AS "title", is_private AS "isPrivate", conversation_id AS "id", creator_id AS "creatorId", updated_at As "updatedAt"
---         FROM "participant" p 
---             INNER JOIN (
---             SELECT is_private, creator_id, updated_at, id
---             FROM "participant" INNER JOIN "conversation" on participant.conversation_id = conversation.id
---             WHERE user_id=$1
---         ) conv on conv.id = p.conversation_id
---         INNER JOIN (
---             SELECT username, id AS "userId" FROM "user"
---             ) u on u."userId" = user_id
---         WHERE is_private=true
---         AND user_id!=$1;
         `,
       [userId],
     );
