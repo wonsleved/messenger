@@ -13,6 +13,12 @@ module.exports = {
       maxLength: 64,
     },
   },
+  chat: {
+    title: {
+      minLength: 1,
+      maxLength: 40,
+    },
+  },
   cookieOptions: {
     refreshToken: {
       maxAge: 2592000000,
