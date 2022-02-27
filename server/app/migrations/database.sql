@@ -41,3 +41,25 @@ create TABLE "participant" (
     FOREIGN KEY (user_id) REFERENCES "user" (id),
     FOREIGN KEY (conversation_id) REFERENCES "conversation" (id)
 );
+
+create TABLE "message" (
+    id uuid PRIMARY KEY,
+    conversation_id uuid,
+    author_id uuid,
+    created_at timestamp,
+    body varchar(255),
+    FOREIGN KEY (conversation_id) REFERENCES "conversation" (id),
+    FOREIGN KEY (author_id) REFERENCES "user" (id)
+);
+
+create TABLE "message_registry" (
+    message_id uuid,
+    owner_id uuid,
+    registry smallint,
+    created_at timestamp,
+    FOREIGN KEY (message_id) REFERENCES "message" (id),
+    FOREIGN KEY (owner_id) REFERENCES "user" (id),
+    PRIMARY KEY (message_id, owner_id, registry)
+);
+
+create INDEX on message_registry(owner_id, registry, created_at DESC);

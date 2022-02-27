@@ -19,6 +19,10 @@ module.exports = {
       maxLength: 40,
     },
   },
+  message: {
+    minLength: 1,
+    maxLength: 255,
+  },
   cookieOptions: {
     refreshToken: {
       maxAge: 2592000000,
