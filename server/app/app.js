@@ -1,16 +1,7 @@
-const express = require('express');
-const cookieParser = require('cookie-parser');
-const apiRouter = require('./routes/api.route');
-const errorMiddleware = require('./middlerwares/error.middleware');
+const Server = require('./server');
 
-const app = express();
-const PORT = process.env.PORT || 5000;
+const server = new Server(process.env.PORT);
 
-app.use(express.json());
-app.use(cookieParser());
-app.use('/api', apiRouter);
-app.use(errorMiddleware());
+server.listen(() => console.log('Server is listening'));
 
-app.listen(PORT, () => {
-  console.log(`App is listening on port ${PORT}`);
-});
+
