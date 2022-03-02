@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <link rel="stylesheet" href="../styles/index.css" type="text/css">
+  <script src="../scripts/login.js" type="module"></script>
+</head>
+<body>
+
+<div class="page">
+  <div class="page__auth-form">
+
+    <form class="auth-form">
+
+      <div class="auth-form__input-field input-field">
+        <input
+                type="text" id="username" class="input-field__input" placeholder=" "
+                required
+                pattern="[a-zA-Z0-9]{0,32}"
+                minlength="3"
+                maxlength="33"
+        >
+        <label for="username" class="input-field__label">
+          Username
+        </label>
+      </div>
+
+      <div class="auth-form__input-field input-field">
+        <input
+                type="password" id="password" class="input-field__input" placeholder=" "
+                required
+                minlength="8"
+                maxlength="41"
+                pattern=".{0,40}"
+        >
+        <label for="password" class="input-field__label">
+          Password
+        </label>
+      </div>
+
+
+
+      <button class="auth-form__submit submit-button">
+        Sign In
+      </button>
+
+    </form>
+
+  </div>
+</div>
+
+</body>
+</html>
