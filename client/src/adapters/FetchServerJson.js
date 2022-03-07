@@ -12,8 +12,6 @@ export class FetchServerJson {
 
     return await this._fetchServer.get(path, {
       'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': '*',
       ...headers
     });
   }
@@ -21,8 +19,6 @@ export class FetchServerJson {
   async post(path, body, headers = {}) {
     return await this._fetchServer.post(path, body, {
       'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': '*',
       ...headers
     });
   }

@@ -1,0 +1,52 @@
+.contact {
+  position: relative;
+  cursor: pointer;
+  white-space: nowrap;
+  padding-left: 10px;
+  box-shadow: inset 1px 0 0 0 @liberty-color;
+  transition: 0.3s;
+
+  &:hover {
+    box-shadow: inset 3px 0 0 0 @liberty-color;
+  }
+
+  &__name {
+    font-weight: 600;
+    font-size: 18px;
+    letter-spacing: 0.05em;
+    color: @liberty-color;
+
+    text-overflow: ellipsis;
+    overflow: hidden;
+    text-decoration: transparent;
+    transition: 0.3s;
+  }
+
+  &__username {
+    font-weight: 400;
+    font-size: 14px;
+    color: @coffee-color;
+
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+
+
+  //&::after {
+  //  content: "";
+  //  position: absolute;
+  //  left: 0;
+  //  top: 0;
+  //  bottom: 0;
+  //  box-shadow: 1px 0 0 0 @liberty-color;
+  //  //background-color: @liberty-color;
+  //  width: 1px;
+  //  transition: 0.3s;
+  //}
+  //
+  //&:hover {
+  //  &::after {
+  //    box-shadow: 1px 0 0 1px @liberty-color;
+  //  }
+  //}
+}

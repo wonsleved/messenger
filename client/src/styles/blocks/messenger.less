@@ -1,0 +1,31 @@
+.messenger {
+  width: 1300px;
+  margin: 0 auto;
+  height: 100%;
+
+  border-right: 2px solid @stone-color;
+  border-left: 2px solid @stone-color;
+
+  display: grid;
+  grid-template-columns: 350px auto;
+  grid-template-rows: 100%;
+  grid-template-areas: "menu chat";
+
+  & > :nth-child(odd):not(:last-child) {
+    border-right: 2px solid @stone-color;
+  }
+
+  &__menu {
+    grid-area: menu;
+  }
+
+  &__chat {
+    grid-area: chat;
+  }
+
+  &__footer {
+    border-top: 2px solid @stone-color;
+    grid-area: footer;
+  }
+
+}

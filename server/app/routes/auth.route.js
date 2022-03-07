@@ -38,7 +38,7 @@ authRouter.post(
   AuthController.delete,
 );
 
-authRouter.post('/refresh', AuthController.refresh);
+authRouter.get('/refresh', AuthController.refresh);
 
 //  Fro test
 authRouter.get('/users', authMiddleware(), AuthController.getAllUsers);

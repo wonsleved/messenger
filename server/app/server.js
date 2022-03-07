@@ -2,6 +2,7 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const apiRouter = require('./routes/api.route');
 const errorMiddleware = require('./middlerwares/error.middleware');
+const corsConfigMiddleware = require('./middlerwares/cors-config.middleware');
 const cors = require('cors');
 const WS = require("ws");
 const HttpServer = require('http');
@@ -40,11 +41,11 @@ module.exports = class Server {
 
 
   _applyMiddlewares() {
+    this._app.use(corsConfigMiddleware);
     this._app.use(cors({
-      origin: 'http://localhost:3000'
-    }))
+      origin: 'http://localhost:3000',
+    }));
     this._app.use(express.json());
-
     this._app.use(cookieParser());
     this._app.use('/api', apiRouter);
     this._app.use(errorMiddleware());

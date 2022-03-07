@@ -1,3 +1,5 @@
+import {ResponseException} from "../exceptions/response.exception.js";
+
 export class FetchServer {
 
   constructor(serverAddress) {
@@ -16,15 +18,14 @@ export class FetchServer {
 
     let response = await fetch(url, {
       method : this.GET,
-      headers : headers
+      headers : headers,
+      credentials: 'include'
     });
 
-    let json;
+    let json = await response.json();
 
-    if (response.ok) {
-      json = await response.json();
-    } else {
-      console.log(response.error);
+    if (!response.ok) {
+      throw new ResponseException(response.status, json.message, json.errors);
     }
 
     return json;
@@ -36,14 +37,14 @@ export class FetchServer {
     let response = await fetch(url, {
       method : this.POST,
       headers : headers,
-      body : body
+      body : body,
+      credentials: 'include'
     });
 
     let json = await response.json();
 
-    if (!response.ok) {
-      console.log(json.message);
-    }
+    if (!response.ok)
+      throw new ResponseException(response.status, json.message, json.errors);
 
     return json;
   }
@@ -54,16 +55,14 @@ export class FetchServer {
     let response = await fetch(url, {
       method : this.DELETE,
       headers : headers,
-      body : body
+      body : body,
+      credentials: 'include'
     });
 
-    let json;
+    let json = await response.json();
 
-    if (response.ok) {
-      json = await response.json();
-    } else {
-      console.log(response.error);
-    }
+    if (!response.ok)
+      throw new ResponseException(response.status, json.message, json.errors);
 
     return json;
   }
@@ -74,16 +73,14 @@ export class FetchServer {
     let response = await fetch(url, {
       method : this.PUT,
       headers : headers,
-      body : body
+      body : body,
+      credentials: 'include'
     });
 
-    let json;
+    let json = await response.json();
 
-    if (response.ok) {
-      json = await response.json();
-    } else {
-      console.log(response.error);
-    }
+    if (!response.ok)
+      throw new ResponseException(response.status, json.message, json.errors);
 
     return json;
   }

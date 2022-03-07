@@ -1,0 +1,23 @@
+.headline {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 50px;
+  height: @headline-height;
+
+  &__logo-text {
+    display: block;
+    font-weight: 500;
+    font-size: 40px;
+    color: @purple-color;
+    letter-spacing: 0.05em;
+    font-style: italic;
+  }
+
+  &__auth {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    align-items: baseline;
+  }
+}

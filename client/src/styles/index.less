@@ -1,156 +1,25 @@
-@import "./common/colors";
-@import "./common/fonts";
+@import './common/colors';
+@import './common/fonts';
+@import './common/normalize';
+@import './common/constants';
 
-
-html {
-  font-family: 'Poppins', sans-serif;
-}
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-a {
-  text-decoration: none;
-  color: inherit;
-}
-
-.page {
-  height: 100vh;
-  width: 100%;
-  background-color: @swan-white-color;
-
-  &__auth-form {
-    height: 100%;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-}
-
-.headline {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 50px;
-
-  &__logo-text {
-    display: block;
-    font-weight: 500;
-    font-size: 40px;
-    color: @purple-color;
-    padding: 20px 0;
-    letter-spacing: 0.05em;
-    font-style: italic;
-  }
-
-  &__auth {
-    display: flex;
-    flex-direction: row;
-    gap: 20px;
-  }
-}
-
-.auth-button {
-  padding: 10px 15px;
-  border-radius: 30px;
-  border: 2px solid @purple-color;
-
-  &._sign-up {
-    color: @purple-color;
-  }
-
-  &._sign-in {
-    background-color: @purple-color;
-    color: @swan-white-color;
-  }
-}
-
-.auth-form {
-  padding: 60px;
-  display: flex;
-  flex-direction: column;
-  border: 5px solid @sky-color;
-  width: 460px;
-  border-radius: 50px 0 50px 0;
-  position: relative;
-
-
-
-  &__input-field {
-    margin-bottom: 30px;
-  }
-
-
-}
-
-.input-field {
-  display: flex;
-  flex-direction: column;
-  position: relative;
-
-  &__input {
-    flex-grow: 1;
-    padding: 10px 15px;
-    font-size: 18px;
-    border-radius: 10px;
-    letter-spacing: 0.08em;
-
-
-    background-color: transparent;
-    outline: none;
-    border: 2px solid @tooth-color;
-    color: @coffee-color;
-    transition: 0.3s;
-    cursor: text;
-
-    &:hover {
-      border-color: @blue-color;
-    }
-
-    &:focus {
-      border-color: @sky-color;
-    }
-  }
-
-  &__label {
-    font-size: 18px;
-    color: @stone-color;
-    font-weight: 600;
-    position: absolute;
-    bottom: 0.5em;
-    left: 16px;
-    cursor: text;
-    padding: 2px;
-    transition: 0.3s;
-  }
-
-  &__input:focus + &__label,
-  &__input:not(:placeholder-shown)&__input:not(:focus) + &__label{
-    color: @sky-color;
-    bottom: 2.4em;
-    font-size: 14px;
-    background-color: @swan-white-color;
-  }
-}
-
-.submit-button {
-  padding: 10px;
-  border-radius: 10px;
-  outline: none;
-  color: @swan-white-color;
-  font-size: 16px;
-  cursor: pointer;
-
-  border: 2px solid @sky-color;
-  background-color: @sky-color;
-  transition: 0.3s;
-
-  &:hover {
-    box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.1);
-  }
-}
+@import './blocks/headline';
+@import './blocks/go-back-button';
+@import './blocks/auth-button';
+@import './blocks/submit-button';
+@import './blocks/first-look-content';
+@import './blocks/auth-form';
+@import './blocks/input-field';
+@import './blocks/page';
+@import './blocks/messenger';
+@import './blocks/messenger-menu';
+@import './blocks/messenger-chat';
+@import './blocks/chats-and-contacts';
+@import './blocks/tabs-list';
+@import './blocks/contact';
+@import './blocks/list';
+@import './blocks/add-button';
+@import './blocks/modal';
+@import './blocks/modal-content';
+@import './blocks/modal-button';
 
