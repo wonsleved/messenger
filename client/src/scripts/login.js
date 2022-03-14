@@ -1,4 +1,4 @@
-import {AuthFetchAdapter} from "../adapters/AuthFetchAdapter.js";
+import {AuthFetchAdapter} from "../adapters/auth-fetch.adapter.js";
 import {AuthService} from "../services/auth.service.js";
 
 // use module pattern
@@ -14,8 +14,6 @@ async function login(event) {
   event.preventDefault();
 
   await AuthService.login(username, password);
-
-  // setTimeout(logout, 1000);
 }
 
 // logout
@@ -30,5 +28,4 @@ async function logout() {
   console.log(userData);
 
   localStorage.removeItem('token');
-
 }

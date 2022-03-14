@@ -1,4 +1,4 @@
-import {AuthFetchAdapter} from "../adapters/AuthFetchAdapter.js";
+import {AuthFetchAdapter} from "../adapters/auth-fetch.adapter.js";
 import {AuthService} from "../services/auth.service.js";
 
 

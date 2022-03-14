@@ -1,12 +1,14 @@
 import {ResponseException} from "../exceptions/response.exception.js";
+import 'regenerator-runtime/runtime'; // ???
 
 export class FetchServer {
 
-  constructor(serverAddress) {
-    this._serverAddress = serverAddress ?? 'http://localhost:5000';
-  }
+  _serverAddress = null;
 
-  _serverAddress;
+  constructor(serverAddress) {
+    // this._serverAddress = serverAddress ?? 'http://localhost:5000';
+    this._serverAddress = serverAddress ?? 'http://localhost';
+  }
 
   GET = 'GET';
   POST = 'POST';

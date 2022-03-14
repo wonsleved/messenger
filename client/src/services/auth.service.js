@@ -1,4 +1,4 @@
-import {AuthFetchAdapter} from "../adapters/AuthFetchAdapter.js";
+import {AuthFetchAdapter} from "../adapters/auth-fetch.adapter.js";
 
 export class AuthService {
 
@@ -10,8 +10,12 @@ export class AuthService {
 
       console.log(user);
 
+      return user;
+
     } catch (e) {
       console.log(e);
+
+      return null;
     }
   }
 
@@ -22,8 +26,14 @@ export class AuthService {
       localStorage.setItem('messenger-token', accessToken);
 
       console.log(user);
+
+      return user;
+
     } catch (e) {
       console.log(e);
+
+      return null;
+
     }
   }
 
@@ -36,8 +46,15 @@ export class AuthService {
       localStorage.removeItem('messenger-token');
 
       console.log(userData);
+
+      return userData;
+
+
     } catch (e) {
       console.log(e);
+
+      return null;
+
     }
   }
 
@@ -50,6 +67,8 @@ export class AuthService {
       return accessToken;
     } catch (e) {
       console.log(e);
+
+      return null;
     }
   }
 

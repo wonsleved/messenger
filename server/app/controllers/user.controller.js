@@ -51,12 +51,10 @@ class UserController {
 
   static async addContact(req, res, next) {
     try {
-      validateErrors(req);
-
       const userId = req.user.id;
       const { contactId } = req.body;
       await UserService.addContact(userId, contactId);
-      return res.send('Success');
+      return res.send({type: "success"});
     } catch (e) {
       next(e);
     }
@@ -69,7 +67,7 @@ class UserController {
       const userId = req.user.id;
       const { contactId } = req.body;
       await UserService.removeContact(userId, contactId);
-      return res.send('Success');
+      return res.send({type: "success"});
     } catch (e) {
       next(e);
     }

@@ -3,26 +3,70 @@ version: "3.9"
 
 
 services:
-  client:
-    restart: always
+  server-api:
     build:
-      context: ./client
+      context: server
+    image: messenger-server
+    container_name: m-server
+    env_file:
+      - ./server/.env
+    networks:
+      - messenger
+    volumes:
+      - ./server/app:/usr/src/app
+    depends_on:
+      - postgres
+
+  client:
+    build:
+      context: client
     image: messenger-client
     container_name: m-client
+    networks:
+      - messenger
+    depends_on:
+      - server-api
+      - postgres
     volumes:
-      - ./client:/app
-    ports:
-      - "80:3000"
+      - ./client:/usr/src/app
 
   nginx:
-    image: nginx:1.21.6
-    container_name: nginx
+    build:
+      context: nginx
+      dockerfile: Dockerfile
+    image: messenger-nginx
+    container_name: m-nginx
+    ports:
+      - "80:80"
+    depends_on:
+      - server-api
+      - client
+      - postgres
+    networks:
+      - messenger
+    restart: always
+#
+#  postgres:
+#    container_name: postgres
+#    image: postgres:14.2
 
   postgres:
     container_name: postgres
     image: postgres:14.2
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./server/app/migrations/database.sql:/docker-entrypoint-initdb.d/dbinit.sql
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: messenger
+    networks:
+      - messenger
 
 
+volumes:
+  postgres_data:
 
 networks:
   messenger:

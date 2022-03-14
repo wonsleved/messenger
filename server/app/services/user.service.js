@@ -13,6 +13,7 @@ const {
   CONTACT_ADD_YOURSELF,
   CONTACT_REMOVE_YOURSELF,
   INVALID_CREDENTIALS,
+  NOT_FOUND
 } = require('../exceptions/api.errors');
 
 class UserService {
@@ -22,7 +23,13 @@ class UserService {
   }
 
   static async findUser(username) {
-    const userData = new PublicUserDto(await UserEntity.findByUsername(username));
+    console.log(username);
+    const data = await UserEntity.findByUsername(username);
+
+    if (!data)
+      throw ApiException.notFound(NOT_FOUND);
+
+    const userData = new PublicUserDto(data);
     return userData;
   }
 

@@ -19,4 +19,5 @@ module.exports = {
   CHAT_ADD_YOURSELF: 'Cannot add yourself',
   CHAT_REMOVE_YOURSELF: 'Cannot remove yourself',
   LEAVE_FROM_PRIVATE_CHAT: 'Cannot leave from private chat',
+  NOT_FOUND: 'User not found',
 };

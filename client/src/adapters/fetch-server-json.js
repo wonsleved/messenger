@@ -1,4 +1,4 @@
-import {FetchServer} from './FetchServer.js';
+import {FetchServer} from './fetch-server.js';
 
 export class FetchServerJson {
 

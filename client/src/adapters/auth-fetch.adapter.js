@@ -1,4 +1,4 @@
-import {FetchServerJson} from './FetchServerJson.js';
+import {FetchServerJson} from './fetch-server-json.js';
 const authApiPath = '/api/auth';
 
 const fetchServerJson = new FetchServerJson();

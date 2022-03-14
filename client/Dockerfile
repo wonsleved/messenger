@@ -1,12 +1,18 @@
-FROM node:12-alpine
+FROM  node:12-alpine
 
-LABEL description="Client"
+LABEL  description="Client"
 
-WORKDIR /app
+WORKDIR  /usr/src/app
 
-RUN npm install
+COPY  package.json package-lock.json ./
+RUN  npm install
 
-EXPOSE 3000
+#COPY  . .
 
-CMD npm run dev
+EXPOSE  3000
 
+#ENTRYPOINT  [ "npm" ]
+#CMD  [ "start" ]
+
+ENTRYPOINT  [ "npm" ]
+CMD  [ "run", "dev" ]

@@ -27,7 +27,7 @@ module.exports = class Server {
   _onlineUsers = new Map();
 
   constructor(port) {
-    this._port = port ?? this._defaultPort;
+    this._port = port || this._defaultPort;
     this._app = express();
     this._applyMiddlewares();
     this._server = HttpServer.createServer();

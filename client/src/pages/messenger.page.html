@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" href="../styles/index.css" type="text/css">
-    <script src="../scripts/loadContacts.js" type="module"></script>
+    <script src="../scripts/messenger.js" type="module"></script>
 </head>
 <body>
 
     <div class="page">
 
-        <div class="modal page__modal">
+        <div class="modal page__modal _show" data-modal="add-contact">
 
             <form class="modal__content modal-content">
 
@@ -20,13 +20,21 @@
 
 
                 <div class="input-field modal-content__input">
-                    <input id="username" type="text" class="input-field__input" placeholder=" ">
-                    <label for="username" class="input-field__label">Username</label>
+                    <input id="add-contact-username" type="text" class="input-field__input" placeholder=" ">
+                    <label for="add-contact-username" class="input-field__label">Username</label>
                 </div>
 
-
-                <button class="modal-content__button modal-button _green">Add</button>
-                <button class="modal-content__button modal-button _red">Close</button>
+                <button type="submit"
+                        class="modal-content__button modal-button _green"
+                >
+                    Add
+                </button>
+                <button type="button"
+                        class="modal-content__button modal-button _red"
+                        onclick="toggleModal(event)"
+                >
+                    Close
+                </button>
 
 
             </form>
@@ -60,7 +68,11 @@
 
                         </div>
 
-                        <footer class="chats-and-contacts__footer add-button">Add contact</footer>
+                        <footer class="chats-and-contacts__footer">
+                            <button class="add-button">
+                                Add contact
+                            </button>
+                        </footer>
 
                     </div>
 
