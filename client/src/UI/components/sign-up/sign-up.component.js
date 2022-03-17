@@ -1,8 +1,25 @@
 import Block from '../../modules/block/index.js';
 import {compile} from '../../utils/templator.js';
-import {chatsTemplate} from './sign-up.template.js';
+import {signUpTemplate} from './sign-up.template.js';
+import {AUTH} from '../../../store/actions';
 
 import {AuthService} from "../../../services/auth.service.js";
+
+
+export default class SignUpComponent extends Block {
+  constructor() {
+    super('div', {
+      signIn: () => window.router.go('/login'),
+      goMain: () => window.router.go('/'),
+      submitAction: register
+    });
+  }
+
+  render() {
+    return compile(signUpTemplate, this.props);
+  }
+}
+
 
 async function register(event) {
   event.preventDefault();
@@ -16,32 +33,11 @@ async function register(event) {
     return;
 
   const action = {
-    type: "AUTH",
+    type: AUTH,
     payload: user
   }
 
   window.store.dispatch(action);
 
   window.router.go('/messenger');
-}
-
-export default class SignUpComponent extends Block {
-  constructor() {
-    super('div', {
-      signIn: () => window.router.go('/login'),
-      goMain: () => window.router.go('/'),
-      submitAction: register
-    });
-  }
-
-  componentDidMount() {
-    // setTimeout(() => {
-    //     console.log(`change props`);
-    //     this.props.items = [4,5,6];
-    // }, 5000);
-  }
-
-  render() {
-    return compile(chatsTemplate, this.props);
-  }
 }

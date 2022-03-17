@@ -1,79 +1,67 @@
 import {AuthFetchAdapter} from "../adapters/auth-fetch.adapter.js";
+import {handleError} from "./error-handlers";
+import { setAccessToken, removeAccessToken, getAccessToken } from "./access-token-action";
 
 export class AuthService {
 
   static async register(username, name, password) {
     try {
+
       const {user, accessToken} = await AuthFetchAdapter.register(username, name, password);
-
-      localStorage.setItem('messenger-token', accessToken);
-
-      console.log(user);
+      setAccessToken(accessToken);
 
       return user;
 
-    } catch (e) {
-      console.log(e);
-
-      return null;
+    } catch (error) {
+      return handleError(error);
     }
   }
 
   static async login(username, password) {
     try {
+
       const {user, accessToken} = await AuthFetchAdapter.login(username, password);
-
-      localStorage.setItem('messenger-token', accessToken);
-
-      console.log(user);
+      setAccessToken(accessToken);
 
       return user;
 
-    } catch (e) {
-      console.log(e);
-
-      return null;
-
+    } catch (error) {
+      return handleError(error);
     }
   }
 
   static async logout() {
     try {
-      let accessToken = localStorage.getItem('token');
 
+      let accessToken = getAccessToken();
       let userData = await AuthFetchAdapter.logout(accessToken);
-
-      localStorage.removeItem('messenger-token');
-
-      console.log(userData);
+      removeAccessToken();
 
       return userData;
 
-
-    } catch (e) {
-      console.log(e);
-
-      return null;
+    } catch (error) {
+      return handleError(error);
 
     }
   }
 
   static async refresh() {
     try {
-      let {accessToken} = await AuthFetchAdapter.refresh();
 
-      localStorage.setItem('messenger-token', accessToken);
+      let {accessToken} = await AuthFetchAdapter.refresh();
+      setAccessToken(accessToken);
 
       return accessToken;
-    } catch (e) {
-      console.log(e);
+    } catch (error) {
+      // if (window.getErrorEvent)
+      //   document.dispatchEvent(window.getErrorEvent(e.message));
+
+      // ???? Ошибка должна прокидываться дальше
 
       return null;
     }
   }
-
 }
-
 
 
 

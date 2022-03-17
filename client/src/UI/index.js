@@ -1,61 +1,20 @@
-import {Router} from './modules/router/index.js'
-import Main from './components/main/main.module.js';
-import SignUpComponent from './components/sign-up/sign-up.module.js';
-import SignInComponent from './components/sign-in/sign-in.module.js';
-import MessengerComponent from "./components/messenger/messenger.component";
+import {routerInit} from "./initialization/router.initialization";
+import {storeInit} from "./initialization/store.initialization";
+import { applyErrorEventListener, getErrorEvent  } from "./events/error.event";
 
-import createStore from "../store/store";
-import reducer from "../store/rootReducer";
 
-import {UserService} from "../services/user.service";
-let user;
+//  Что-то с роутером. Нельзя перейти через /messenger, но можно стрелочками
 
 (async function() {
-  user = await UserService.getMyInfo();
 
-  const initialState = {
-    user
-  };
+  await storeInit();
 
-  window.store = createStore(reducer, initialState);
+  window.getErrorEvent = getErrorEvent;
 
-  const router = new Router('.root');
+  routerInit();
 
-  router.default('/');
+  applyErrorEventListener();
 
-  console.log('state:   ');
-  console.log(window.store.state);
-
-  if (window.store.getState().user) {
-    router
-      .use('/', MessengerComponent)
-      .start();
-  } else {
-    router
-      .use('/', Main)
-      .use('/register', SignUpComponent)
-      .use('/login', SignInComponent)
-      .start();
-  }
-
-
-  window.router = router;
-  window.store.subscribe(manipulateRouter);
-
-  function manipulateRouter(state, action) {
-    console.log(action);
-    console.log(state);
-    if (action.type === "AUTH" && state.user) {
-      router.clear()
-        .use('/', MessengerComponent)
-      ;
-    }
-    else if (action.type === "LOGOUT") {
-      router.clear()
-        .use('/', Main)
-        .use('/register', SignUpComponent)
-        .use('/login', SignInComponent)
-
-    }
-  }
 })();
+
+

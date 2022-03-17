@@ -3,12 +3,10 @@ export default function createStore(rootReducer, initialState) {
   let listeners = [];
 
   function getState() {
-    console.log(state);
     return state;
   }
 
   function dispatch(action) {
-    console.log(action);
     state = rootReducer(state, action);
     listeners.forEach(listener => listener(state, action));
   }
@@ -17,8 +15,10 @@ export default function createStore(rootReducer, initialState) {
     listeners.push(listener);
   }
 
-  // dispatch({});
+  function unsubscribe(listener) {
+    listeners = listeners.filter(li => li !== listener);
+  }
 
-  return { getState, dispatch, subscribe, state };
+  return { getState, dispatch, subscribe, unsubscribe };
 }
 

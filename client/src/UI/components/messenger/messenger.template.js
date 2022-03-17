@@ -1,9 +1,12 @@
 
 
 
-export const chatsTemplate = (function () {
+export const messengerTemplate = (function () {
   return `
 <div class="page">
+    
+        {{ ContactModalComponent }}
+
 
         <header class="headline page__header">
 
@@ -25,16 +28,33 @@ export const chatsTemplate = (function () {
                     <div class="messenger-menu__chats-and-contacts chats-and-contacts">
 
                         <header class="chats-and-contacts__header tabs-list">
-                            <div class="tabs-list__tab _active">Contacts</div>
-                            <div class="tabs-list__tab">Chats</div>
+                            <div 
+                                class="tabs-list__tab _active"
+                                onclick="{{ showContacts }}"
+                            >
+                                Contacts
+                            </div>
+                            <div 
+                                class="tabs-list__tab"
+                                onclick="{{ showChats }}"
+                            >
+                            Chats
+                            </div>
                         </header>
 
-                        <div class="chats-and-contacts__list list">
+                        <div class="chats-and-contacts__list list" data-list="contacts">
+
+                        </div>
+                        
+                        <div class="chats-and-contacts__list list" data-list="chats" style="display: none">
 
                         </div>
 
                         <footer class="chats-and-contacts__footer">
-                            <button class="add-button">
+                            <button 
+                                class="add-button"
+                                onclick="{{ openContactModal }}"
+                                >
                                 Add contact
                             </button>
                         </footer>

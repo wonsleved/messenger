@@ -1,7 +1,7 @@
 
 
 
-export const chatsTemplate = (function () {
+export const signInTemplate = (function () {
   return `
 <div class="page">
   <header class="headline page__header">

@@ -1,10 +1,9 @@
 
 
 
-export const chatsTemplate = (function () {
+export const mainTemplate = (function () {
   return `
 <div class="page">
-
     <header class="headline page__header">
 
         <span class="headline__logo-text">Messenger</span>

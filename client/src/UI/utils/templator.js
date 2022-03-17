@@ -1,5 +1,4 @@
 import get from 'lodash/get.js';
-// let get = require('lodash/get');
 
 const TEMPLATE_REGEXP = /\{\{(.*?)\}\}/gi;
 const EXEC_REGEXP = /\{\{\{(.*?)\}\}\}/gis;
@@ -54,5 +53,4 @@ function _compileTemplate(tmpl) {
 
 export function compile(template, ctx) {
   return _compileTemplate.bind(ctx)(template);
-  // return _compileTemplate(template, ctx);
 }

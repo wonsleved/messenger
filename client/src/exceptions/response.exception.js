@@ -5,6 +5,10 @@ export class ResponseException extends Error {
   constructor(status, message, errors = []) {
     super(message);
     this.status = status;
+
+    if (typeof(errors) === 'object' && errors.errors)
+      errors = errors.errors;
+
     this.errors = errors;
   }
 }

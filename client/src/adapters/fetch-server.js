@@ -6,7 +6,6 @@ export class FetchServer {
   _serverAddress = null;
 
   constructor(serverAddress) {
-    // this._serverAddress = serverAddress ?? 'http://localhost:5000';
     this._serverAddress = serverAddress ?? 'http://localhost';
   }
 

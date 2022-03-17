@@ -2,9 +2,6 @@ import {UserService} from "../services/user.service.js";
 
 window.addEventListener('load', drawContacts);
 
-
-
-
 async function drawContacts() {
   let contactsArray = await UserService.getContacts();
   // let contactsArray = Array.from(contacts);

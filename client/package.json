@@ -4,7 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "dev": "parcel src/index.html -p 3000",
+    "dev": "parcel src/index.html -p $CLIENT_PORT",
     "build": "parcel build src/index.html",
     "start": "node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"

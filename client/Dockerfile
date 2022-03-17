@@ -9,10 +9,10 @@ RUN  npm install
 
 #COPY  . .
 
-EXPOSE  3000
+EXPOSE  $CLIENT_PORT
 
 #ENTRYPOINT  [ "npm" ]
 #CMD  [ "start" ]
 
 ENTRYPOINT  [ "npm" ]
-CMD  [ "run", "dev" ]
+CMD  [ "run", "dev", "$CLIENT_PORT" ]

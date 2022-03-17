@@ -41,9 +41,12 @@ module.exports = class Server {
 
 
   _applyMiddlewares() {
+    const HOST_NAME = process.env.HOST_NAME;
+    const CLIENT_PORT = process.env.CLIENT_PORT;
+
     this._app.use(corsConfigMiddleware);
     this._app.use(cors({
-      origin: 'http://localhost:3000',
+      origin: `http://${HOST_NAME}:${CLIENT_PORT}`,
     }));
     this._app.use(express.json());
     this._app.use(cookieParser());

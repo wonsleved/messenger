@@ -1,4 +1,4 @@
-import {render} from "../../utils/render.js";
+import {render, disRender} from "../../utils/render.js";
 
 export default class Route {
   constructor(pathname, view, props) {
@@ -10,7 +10,7 @@ export default class Route {
 
   leave() {
     if (this._block)
-      this._block.hide();
+      disRender(this._props.rootQuery, this._block);
   }
 
   match(pathname) {
@@ -18,13 +18,10 @@ export default class Route {
   }
 
   render() {
-    if (!this._block) {
+    if (!this._block)
       this._block = new this._blockClass();
-      render(this._props.rootQuery, this._block);
-      return;
-    }
 
-    this._block.show();
+    render(this._props.rootQuery, this._block);
   }
 
 }
