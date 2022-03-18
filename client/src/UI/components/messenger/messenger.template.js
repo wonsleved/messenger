@@ -6,6 +6,7 @@ export const messengerTemplate = (function () {
 <div class="page">
     
         {{ ContactModalComponent }}
+        {{ ChatModalComponent }}
 
 
         <header class="headline page__header">
@@ -28,7 +29,7 @@ export const messengerTemplate = (function () {
                     <div class="messenger-menu__chats-and-contacts chats-and-contacts">
 
                         <header class="chats-and-contacts__header tabs-list">
-                            <div 
+                            <div
                                 class="tabs-list__tab _active"
                                 onclick="{{ showContacts }}"
                             >
@@ -50,12 +51,21 @@ export const messengerTemplate = (function () {
 
                         </div>
 
-                        <footer class="chats-and-contacts__footer">
+                        <footer class="chats-and-contacts__footer" data-list="contacts">
                             <button 
                                 class="add-button"
                                 onclick="{{ openContactModal }}"
                                 >
                                 Add contact
+                            </button>
+                        </footer>
+                        
+                        <footer class="chats-and-contacts__footer" data-list="chats" style="display: none">
+                            <button 
+                                class="add-button"
+                                onclick="{{ openChatModal }}"
+                                >
+                                Create chat
                             </button>
                         </footer>
 
@@ -64,8 +74,8 @@ export const messengerTemplate = (function () {
                 </section>
 
                 <section class="messenger__chat messenger-chat">
-a
-
+                
+<!--                    {{ ChatMessagesComponent }}-->
 
                 </section>
 

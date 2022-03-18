@@ -3,10 +3,14 @@ import {compile} from '../../utils/templator.js';
 import {messengerTemplate} from './messenger.template.js';
 import {AuthService} from "../../../services/auth.service";
 import ContactModalComponent from "../contact-modal/contact-modal.component";
+import ChatModalComponent from "../chat-modal/chat-modal.component";
 import { LOGOUT } from '../../../store/actions';
 import ContactComponent from "../contact/contact.component";
 import {UserService} from "../../../services/user.service";
 import {loadContacts} from "../../general/load-contacts";
+import {loadChats} from "../../general/load-chats";
+import ChatMessagesComponent from "../chat-messages/chat-messages.module";
+
 
 export default class MessengerComponent extends Block {
   constructor() {
@@ -16,7 +20,9 @@ export default class MessengerComponent extends Block {
       logoutAction: logout,
       username: window.store.getState().user.username,
       ContactModalComponent: (new ContactModalComponent).render(),
+      ChatModalComponent: (new ChatModalComponent).render(),
       openContactModal,
+      openChatModal,
       showContacts,
       showChats
     });
@@ -24,6 +30,7 @@ export default class MessengerComponent extends Block {
 
   componentDidMount() {
     loadContacts().then();
+    loadChats().then();
   }
 
   render() {
@@ -49,6 +56,14 @@ function openContactModal(event) {
   modal.classList.add(SHOW_MODAL);
 }
 
+function openChatModal(event) {
+  const SHOW_MODAL = '_show';
+
+  let modal = document.querySelector('[data-modal="add-chat"]');
+
+  modal.classList.add(SHOW_MODAL);
+}
+
 function swapListFunc() {
   let state = 'contacts';
   function showContacts(event) {
@@ -56,10 +71,13 @@ function swapListFunc() {
       return;
 
     state = 'contacts';
-    const contactsList = document.querySelector('[data-list="contacts"]');
-    const chatsList = document.querySelector('[data-list="chats"]');
-    chatsList.style.display = 'none';
-    contactsList.style.display = 'block';
+    const contactsList = document.querySelectorAll('[data-list="contacts"]');
+    const chatsList = document.querySelectorAll('[data-list="chats"]');
+    // chatsList.style.display = 'none';
+    // contactsList.style.display = 'block';
+
+    chatsList.forEach(element => element.style.display = 'none');
+    contactsList.forEach(element => element.style.display = 'block');
 
     event.currentTarget.nextElementSibling.classList.toggle('_active');
     event.currentTarget.classList.toggle('_active');
@@ -70,14 +88,19 @@ function swapListFunc() {
       return;
 
     state = 'chats';
-    const contactsList = document.querySelector('[data-list="contacts"]');
-    const chatsList = document.querySelector('[data-list="chats"]');
-    chatsList.style.display = 'block';
-    contactsList.style.display = 'none';
+    const contactsList = document.querySelectorAll('[data-list="contacts"]');
+    const chatsList = document.querySelectorAll('[data-list="chats"]');
+    chatsList.forEach(element => element.style.display = 'block');
+    contactsList.forEach(element => element.style.display = 'none');
 
     event.currentTarget.previousElementSibling.classList.toggle('_active');
     event.currentTarget.classList.toggle('_active');
   }
   return { showContacts, showChats }
 }
+
+// function openChat(event) {
+//
+// }
+
 

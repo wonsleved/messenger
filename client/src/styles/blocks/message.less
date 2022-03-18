@@ -1,0 +1,40 @@
+.message {
+  background-color: @message-white-color;
+  max-width: 45%;
+  padding: 10px 15px;
+  border-radius: 20px 20px 20px 0;
+  margin: 5px 0;
+  flex-grow: 0;
+  align-self: flex-start;
+  color: @dark-color;
+  display: flex;
+  flex-direction: column;
+
+  &._own {
+    align-self: flex-end;
+    border-radius: 20px 20px 0 20px;
+  }
+
+  &__owner-name {
+    font-weight: 600;
+    margin-bottom: 5px;
+    max-width: 100%;
+    align-self: flex-start;
+    border-bottom: 1px solid @stone-color;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__content {
+    align-self: flex-start;
+    word-break: break-all;
+  }
+
+  &__date {
+    margin-top: 5px;
+    align-self: flex-end;
+    font-size: 14px;
+    color: @coffee-color;
+    user-select: none;
+  }
+}

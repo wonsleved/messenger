@@ -33,7 +33,7 @@ export default (function() {
     return newObj;
   }
 
-  return function clone(element) {
+  function clone(element) {
     if (element === null)
       return null;
     else if (element === undefined)
@@ -45,4 +45,6 @@ export default (function() {
     else
       return element;
   }
+
+  return clone;
 })();

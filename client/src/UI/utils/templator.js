@@ -36,10 +36,11 @@ function _compileTemplate(tmpl) {
       }
 
       if (typeof data === 'function') {
-        window[key[1].trim()] = data;
+        let funcKey = key[1].trim() + Math.random().toString().slice(2, 10);
+        window[funcKey] = data;
         html = html.replace(
           new RegExp(key[0], 'gi'),
-          `window.${key[1].trim()}(event)`,
+          `window.${funcKey}(event)`,
         );
         continue;
       }
