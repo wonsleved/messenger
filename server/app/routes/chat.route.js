@@ -46,7 +46,7 @@ chatRouter.post(
 );
 
 chatRouter.post(
-  '/new/:userId',
+  '/write/:userId',
   param('userId', 'Chat id must be UUID v4').isUUID(4),
   validateErrorsMiddleware(),
   ChatController.createPrivateChat,

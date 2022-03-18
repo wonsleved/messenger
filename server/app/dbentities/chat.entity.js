@@ -110,7 +110,10 @@ class ChatEntity {
 
   static async findPrivateChat(oneUserId, anotherUserId) {
     const query = await db.query(
-      'SELECT * FROM "participant" one INNER JOIN "participant" another on one.conversation_id = another.conversation_id WHERE one.user_id=$1 AND another.user_id=$2',
+      `SELECT one.conversation_id AS conversationId 
+        FROM "participant" one INNER JOIN "participant" another on 
+            one.conversation_id = another.conversation_id 
+        WHERE one.user_id=$1 AND another.user_id=$2`,
       [oneUserId, anotherUserId],
     );
 

@@ -60,8 +60,10 @@ class ChatService {
     if (!userToAddExists) throw ApiException.badRequest(USER_NOT_EXIST);
 
     // check if chat exists
-    const chatExists = await ChatEntity.findPrivateChat(creatorId, userId);
-    if (chatExists) throw ApiException.badRequest(CHAT_EXISTS);
+    const {conversationId} = await ChatEntity.findPrivateChat(creatorId, userId); //
+    if (conversationId)
+      return this.getChatData(creatorId, conversationId);
+      // throw ApiException.badRequest(CHAT_EXISTS);
 
     // create private chat
     const chatId = await ChatEntity.createChat(creatorId, null, true);
