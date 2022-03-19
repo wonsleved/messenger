@@ -10,6 +10,8 @@ import {UserService} from "../../../services/user.service";
 import {loadContacts} from "../../general/load-contacts";
 import {loadChats} from "../../general/load-chats";
 import ChatMessagesComponent from "../chat-messages/chat-messages.module";
+import ContactInfoModalComponent from "../contact-info-modal/contact-info-modal.component";
+
 
 
 export default class MessengerComponent extends Block {
@@ -19,8 +21,8 @@ export default class MessengerComponent extends Block {
     super('div', {
       logoutAction: logout,
       username: window.store.getState().user.username,
-      ContactModalComponent: (new ContactModalComponent).render(),
-      ChatModalComponent: (new ChatModalComponent).render(),
+      ContactModalComponent: new ContactModalComponent().render(),
+      ChatModalComponent: new ChatModalComponent().render(),
       openContactModal,
       openChatModal,
       showContacts,

@@ -13,7 +13,7 @@ export async function loadContacts() {
   let fragment = document.createDocumentFragment();
 
   for(let contact of contacts) {
-    const contactComponent = new ContactComponent(contact.name, contact.username);
+    const contactComponent = new ContactComponent(contact);
     let doc = parser.parseFromString(contactComponent.render(), "text/html");
 
     let contactElement = doc.body.children[0];
