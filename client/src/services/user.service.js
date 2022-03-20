@@ -1,6 +1,7 @@
 import {UserFetchAdapter} from "../adapters/user-fetch-adapter.js";
 import {handleAuthError} from "./error-handlers";
 import {getAccessToken} from "./access-token-action";
+import {CONTACTS_UPDATE, CHATS_UPDATE} from "../store/actions";
 
 export class UserService {
   static async getContacts() {
@@ -8,7 +9,11 @@ export class UserService {
 
       const accessToken = getAccessToken();
 
-      return await UserFetchAdapter.getToContacts(accessToken);
+      const contacts = await UserFetchAdapter.getToContacts(accessToken);
+
+      window.store.dispatch({ type: CONTACTS_UPDATE, payload: contacts});
+
+      return contacts;
 
     } catch (error) {
       return await handleAuthError(error, UserService.getContacts.bind(null, ...arguments));
@@ -71,7 +76,11 @@ export class UserService {
 
       const accessToken = getAccessToken();
 
-      return await UserFetchAdapter.getChats(accessToken);
+      const chats = await UserFetchAdapter.getChats(accessToken);
+
+      window.store.dispatch({ type: CHATS_UPDATE, payload: chats});
+
+      return chats;
 
     } catch (error) {
       return await handleAuthError(error, UserService.getChats.bind(null, ...arguments));

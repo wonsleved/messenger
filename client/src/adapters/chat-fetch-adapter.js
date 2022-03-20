@@ -7,8 +7,8 @@ const authApiChatPath = '/api/chat';
 const fetchServerJson = new FetchServerJson();
 
 export class  ChatFetchAdapter {
-  static async newPrivateChat(token, userId) {
-    return await fetchServerJson.post(`${authApiChatPath}/new/${userId}`, {
+  static async writeUser(token, userId) {
+    return await fetchServerJson.post(`${authApiChatPath}/write/${userId}`, '', {
       'Authorization': `Bearer ${token}`
     });
   }

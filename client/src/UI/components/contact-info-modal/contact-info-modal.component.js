@@ -1,6 +1,12 @@
 import Block from '../../modules/block/index.js';
 import {compile} from '../../utils/templator.js';
 import {contactInfoModalTemplate} from "./contact-info-modal.template";
+import {UserService} from "../../../services/user.service";
+import {loadContacts} from "../../general/load-contacts";
+import {openChat} from "../../general/open-chat";
+import {ChatService} from "../../../services/chat.service";
+import {loadChats} from "../../general/load-chats";
+
 
 const MODAL_CLASS = 'modal';
 const SHOW_MODAL = '_show';
@@ -11,7 +17,9 @@ export default class ContactInfoModalComponent extends Block {
       outsideModalClick,
       toggleModal,
       username: contact.username,
-      name: contact.name
+      name: contact.name,
+      removeContact,
+      writeToUser
     });
 
     function outsideModalClick({target}) {
@@ -34,6 +42,28 @@ export default class ContactInfoModalComponent extends Block {
       // modalWindow.classList.toggle(SHOW_MODAL);
       closeModal(modalWindow);
     }
+
+    async function removeContact(event) {
+      event.preventDefault();
+
+      await UserService.removeFromContacts(contact.username);
+      await loadContacts();
+
+      closeModal();
+    }
+
+    async function writeToUser(event) {
+      event.preventDefault();
+
+      const chatInfo = await ChatService.writeUser(contact.id);
+
+      await loadChats();
+
+      openChat(chatInfo);
+
+      closeModal();
+    }
+
 
   }
 

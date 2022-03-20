@@ -26,7 +26,7 @@ function _compileTemplate(tmpl) {
     }
   }
 
-  while ((key = TEMPLATE_REGEXP.exec(tmpl))) {
+  while ((key = TEMPLATE_REGEXP.exec(html))) {
 
     if (key[1]) {
       let data = get(this, key[1].trim());

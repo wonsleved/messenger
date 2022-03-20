@@ -19,6 +19,7 @@ userRouter.get(
   UserController.findUser,
 );
 
+// is auth?
 userRouter.get('/', UserController.getUserData);
 
 userRouter.get('/contacts', UserController.getContacts);

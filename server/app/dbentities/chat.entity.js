@@ -8,7 +8,16 @@ class ChatEntity {
         SELECT title, is_private AS "isPrivate", conversation_id AS "id", creator_id AS "creatorId", updated_at As "updatedAt"
         FROM "participant" INNER JOIN "conversation" 
         on conversation.id = participant.conversation_id
-        AND user_id=$1;
+        AND user_id=$1 AND title IS NOT NULL
+        UNION
+        SELECT u.name as "title", is_private AS "isPrivate",
+               conv.id as id, creator_id AS "creatorId", conv.updated_at AS "updatedAt"
+        FROM ( SELECT is_private, id, creator_id, updated_at, p.user_id AS "person_id" FROM
+                      (SELECT * FROM "participant" INNER JOIN "conversation" 
+                on conversation.id = participant.conversation_id
+                    AND user_id=$1 AND title IS NULL ) conv inner join "participant" p 
+                        on conv.conversation_id = p.conversation_id AND conv.user_id != p.user_id) conv
+        inner join "user" u on conv.person_id = u.id;
         `,
       [userId],
     );
@@ -30,14 +39,23 @@ class ChatEntity {
     return queryResult.rows[0];
   }
 
-  static async getChatData(chatId) {
+  static async getChatData(chatId, userId) {
     const queryResult = await db.query(
       `
       SELECT title, is_private AS "isPrivate",
-             id, creator_id AS "creatorId", updated_at AS "updatedAt"
-      FROM "conversation" WHERE id=$1;
+             id as id, creator_id AS "creatorId", updated_at AS "updatedAt"
+      FROM "conversation"
+      WHERE id=$1 AND title IS NOT NULL
+      UNION
+      SELECT u.name as "title", is_private AS "isPrivate",
+             conv.id as id, creator_id AS "creatorId", conv.updated_at AS "updatedAt"
+      FROM ( SELECT * FROM
+          (SELECT * FROM "conversation" WHERE id=$1 AND title IS NULL) 
+              conv inner join participant p on conv.id = p.conversation_id
+          WHERE p.user_id!=$2) 
+      conv inner join "user" u on conv.user_id = u.id;
       `,
-      [chatId],
+      [chatId, userId],
     );
 
     return queryResult.rows[0];
@@ -110,7 +128,7 @@ class ChatEntity {
 
   static async findPrivateChat(oneUserId, anotherUserId) {
     const query = await db.query(
-      `SELECT one.conversation_id AS conversationId 
+      `SELECT one.conversation_id AS "conversationId" 
         FROM "participant" one INNER JOIN "participant" another on 
             one.conversation_id = another.conversation_id 
         WHERE one.user_id=$1 AND another.user_id=$2`,

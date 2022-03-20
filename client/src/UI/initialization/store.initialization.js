@@ -12,6 +12,8 @@ export async function storeInit() {
   let user = await UserService.getMyInfo();
   const initialState = {
     user,
+    contacts : [],
+    chats: [],
     errors: []
   };
   window.store = createStore(reducer, initialState);

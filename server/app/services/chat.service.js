@@ -22,7 +22,8 @@ const {
 class ChatService {
   static async getChatData(userId, chatId) {
     // get chat data
-    const chatData = new ChatDto(await ChatEntity.getChatData(chatId));
+    // authorization
+    const chatData = new ChatDto(await ChatEntity.getChatData(chatId, userId));
 
     return chatData;
   }
@@ -47,7 +48,7 @@ class ChatService {
     // add creator to chat
     await ChatEntity.addParticipant(chatId, userId);
     // get chat data
-    const chatData = await ChatEntity.getChatData(chatId);
+    const chatData = await ChatEntity.getChatData(chatId, userId);
     return chatData;
   }
 
@@ -60,9 +61,9 @@ class ChatService {
     if (!userToAddExists) throw ApiException.badRequest(USER_NOT_EXIST);
 
     // check if chat exists
-    const {conversationId} = await ChatEntity.findPrivateChat(creatorId, userId); //
-    if (conversationId)
-      return this.getChatData(creatorId, conversationId);
+    const result = await ChatEntity.findPrivateChat(creatorId, userId); //
+    if (result)
+      return this.getChatData(creatorId, result.conversationId);
       // throw ApiException.badRequest(CHAT_EXISTS);
 
     // create private chat
@@ -72,13 +73,14 @@ class ChatService {
     // add user to chat
     await ChatEntity.addParticipant(chatId, userId);
     // get chat data
-    const chatData = new ChatDto(await ChatEntity.getChatData(chatId));
+    const chatData = new ChatDto(await ChatEntity.getChatData(chatId, creatorId));
+
     return chatData;
   }
 
   static async deleteChat(userId, chatId) {
     // get chat data
-    const chatData = new ChatDto(await ChatEntity.getChatData(chatId));
+    const chatData = new ChatDto(await ChatEntity.getChatData(chatId, userId));
     // forbid delete private chats
     if (chatData.isPrivate) throw ApiException.notAllowed(DELETE_PRIVATE_CHAT);
     // check access
@@ -98,7 +100,7 @@ class ChatService {
     if (!userToAddExists) throw ApiException.badRequest(USER_NOT_EXIST);
 
     // get chat data
-    const chatData = new ChatDto(await ChatEntity.getChatData(chatId));
+    const chatData = new ChatDto(await ChatEntity.getChatData(chatId, userId));
     // forbid add users to private chats
     if (chatData.isPrivate) throw ApiException.notAllowed(ADD_TO_PRIVATE_CHAT);
 
@@ -120,7 +122,7 @@ class ChatService {
     if (!userToAddExists) throw ApiException.badRequest(USER_NOT_EXIST);
 
     // get chat data
-    const chatData = new ChatDto(await ChatEntity.getChatData(chatId));
+    const chatData = new ChatDto(await ChatEntity.getChatData(chatId, userId));
     // forbid remove users to private chats
     if (chatData.isPrivate) throw ApiException.notAllowed(REMOVE_FROM_PRIVATE_CHAT);
 
@@ -138,7 +140,7 @@ class ChatService {
 
   static async leaveChat(userId, chatId) {
     // get chat data
-    const chatData = new ChatDto(await ChatEntity.getChatData(chatId));
+    const chatData = new ChatDto(await ChatEntity.getChatData(chatId, userId));
     // forbid logout from private chats
     if (chatData.isPrivate) throw ApiException.notAllowed(LEAVE_FROM_PRIVATE_CHAT);
 

@@ -4,6 +4,7 @@ import {chatTemplate} from './chat.template';
 import personImgSrc from '../../images/person.svg';
 import ChatMessagesComponent from "../chat-messages/chat-messages.module";
 import CloneDeep from "../../utils/cloneDeep";
+import {openChat} from "../../general/open-chat";
 
 
 export default class ChatComponent extends Block {
@@ -11,7 +12,7 @@ export default class ChatComponent extends Block {
     super('div', {
       personImgSrc,
       chat,
-      openChat: openChat(chat)
+      openChat: openChatCreator(chat)
     });
   }
 
@@ -21,16 +22,12 @@ export default class ChatComponent extends Block {
   }
 }
 
-function openChat(chat) {
+function openChatCreator(chat) {
 
   function openConversation(event) {
     event.preventDefault();
 
-    let chatWindow = document.getElementsByClassName('messenger-chat')[0];
-
-    const chatComponent = new ChatMessagesComponent(chat);
-
-    chatWindow.innerHTML = chatComponent.render();
+    openChat(chat);
   }
 
   return openConversation;

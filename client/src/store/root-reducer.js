@@ -3,6 +3,7 @@ import * as actions from "./actions";
 
 export default function reducer(state = {}, action = {}) {
   switch (action.type) {
+
     case actions.AUTH: return {...state, user: action.payload}
 
     case actions.LOGOUT: return {...state, user: null};
@@ -11,7 +12,11 @@ export default function reducer(state = {}, action = {}) {
 
     case actions.ERROR_CLEAR: return {...state, errors: []}
 
-    default: return;
+    case actions.CONTACTS_UPDATE: return {...state, contacts: action.payload}
+
+    case actions.CHATS_UPDATE: return {...state, chats: action.payload}
+
+    default: return state;
   }
 }
 

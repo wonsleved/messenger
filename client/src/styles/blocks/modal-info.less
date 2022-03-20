@@ -1,5 +1,6 @@
-.contact-info {
+.modal-info {
   font-size: 18px;
+  width: 400px;
 
   &__field {
     box-shadow: 0 1px 0 0 @message-white-color;
@@ -20,6 +21,20 @@
     box-shadow: 0 2px 0 0 @coffee-color;
     overflow: auto;
     margin-bottom: 10px;
+  }
+
+  &__options {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+    & > * {
+      margin-bottom: 5px;
+
+    }
+  }
+
+  &__close-button {
+    width: 100%;
   }
 
 }

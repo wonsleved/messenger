@@ -1,17 +1,18 @@
 import {ChatFetchAdapter} from "../adapters/chat-fetch-adapter";
 import {handleAuthError} from "./error-handlers";
 import {getAccessToken} from "./access-token-action";
+import {UserFetchAdapter} from "../adapters/user-fetch-adapter";
 
 export class ChatService {
-  static async newPrivateChat(username) {
+  static async writeUser(userId) {
     try {
 
       const accessToken = getAccessToken();
 
-      return await ChatFetchAdapter.newPrivateChat(accessToken, username);
+      return await ChatFetchAdapter.writeUser(accessToken, userId);
 
     } catch (error) {
-      return await handleAuthError(error, ChatService.newPrivateChat.bind(null, arguments));
+      return await handleAuthError(error, ChatService.writeUser.bind(null, ...arguments));
     }
   }
 
@@ -23,7 +24,7 @@ export class ChatService {
       return await ChatFetchAdapter.getChatInfo(accessToken, chatId);
 
     } catch (error) {
-      return await handleAuthError(error, ChatService.getChatInfo.bind(null, arguments));
+      return await handleAuthError(error, ChatService.getChatInfo.bind(null, ...arguments));
     }
   }
 
@@ -35,7 +36,7 @@ export class ChatService {
       return await ChatFetchAdapter.getChatParticipants(accessToken, chatId);
 
     } catch (error) {
-      return await handleAuthError(error, ChatService.getChatParticipants.bind(null, arguments));
+      return await handleAuthError(error, ChatService.getChatParticipants.bind(null, ...arguments));
     }
   }
 
@@ -47,7 +48,7 @@ export class ChatService {
       return await ChatFetchAdapter.newGroupChat(accessToken, title);
 
     } catch (error) {
-      return await handleAuthError(error, ChatService.newGroupChat.bind(null, arguments));
+      return await handleAuthError(error, ChatService.newGroupChat.bind(null, ...arguments));
     }
   }
 
@@ -59,31 +60,37 @@ export class ChatService {
       return await ChatFetchAdapter.deleteChat(accessToken, chatId);
 
     } catch (error) {
-      return await handleAuthError(error, ChatService.deleteChat.bind(null, arguments));
+      return await handleAuthError(error, ChatService.deleteChat.bind(null, ...arguments));
     }
   }
 
-  static async addToChat(chatId, userId) {
+  static async addToChat(chatId, username) {
     try {
 
       const accessToken = getAccessToken();
+
+      const userData = await UserFetchAdapter.findByUsername(accessToken, username);
+      const userId = userData.id;
 
       return await ChatFetchAdapter.addToChat(accessToken, chatId, userId);
 
     } catch (error) {
-      return await handleAuthError(error, ChatService.addToChat.bind(null, arguments));
+      return await handleAuthError(error, ChatService.addToChat.bind(null, ...arguments));
     }
   }
 
-  static async removeFromChat(chatId, userId) {
+  static async removeFromChat(chatId, username) {
     try {
 
       const accessToken = getAccessToken();
 
+      const userData = await UserFetchAdapter.findByUsername(accessToken, username);
+      const userId = userData.id;
+
       return await ChatFetchAdapter.removeFromChat(accessToken, chatId, userId);
 
     } catch (error) {
-      return await handleAuthError(error, ChatService.removeFromChat.bind(null, arguments));
+      return await handleAuthError(error, ChatService.removeFromChat.bind(null, ...arguments));
     }
   }
 
@@ -92,10 +99,10 @@ export class ChatService {
 
       const accessToken = getAccessToken();
 
-      return await ChatFetchAdapter.removeFromChat(accessToken, chatId);
+      return await ChatFetchAdapter.leaveFromChat(accessToken, chatId);
 
     } catch (error) {
-      return await handleAuthError(error, ChatService.leaveFromChat.bind(null, arguments));
+      return await handleAuthError(error, ChatService.leaveFromChat.bind(null, ...arguments));
     }
   }
 
@@ -107,7 +114,7 @@ export class ChatService {
       return await ChatFetchAdapter.removeFromChat(accessToken, chatId);
 
     } catch (error) {
-      return await handleAuthError(error, ChatService.getPrivateChatAddressee.bind(null, arguments));
+      return await handleAuthError(error, ChatService.getPrivateChatAddressee.bind(null, ...arguments));
     }
   }
 }
