@@ -56,6 +56,11 @@ module.exports = class Server {
 
   _initWebSockets(webSocket = this._webSocketServer) {
 
+    webSocket.on('headers', (headers, req) => {
+      const headersArray = req.headers.cookie.split('; ').map(cookie => cookie.split('='));
+      req.headerObject = Object.fromEntries(new Map(headersArray));
+    })
+
     webSocket.on('connection', async (ws, req) => {
       try {
         ws.user = await verifyUser(req);
@@ -95,10 +100,7 @@ module.exports = class Server {
 }
 
 async function verifyUser(req) {
-  const authHeader = req.headers.authorization;
-  if (!authHeader) throw ApiException.unauthorized();
-
-  const accessToken = authHeader.split(' ')[1];
+  const accessToken = req.headerObject.accessToken;
   if (!accessToken) throw ApiException.unauthorized();
 
   const userDataFromToken = TokenService.validateAccessToken(accessToken);
