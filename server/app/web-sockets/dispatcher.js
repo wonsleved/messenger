@@ -1,6 +1,7 @@
 const {CHAT_MESSAGE, ERROR_OCCUR} = require('./message-events');
 const ChatService = require("../services/chat.service");
 const MessageDto = require("../dtos/message.dto");
+const createWsMessage = require("./createWsMessage");
 
 module.exports = async function dispatcher(message, webSocketServer, ws) {
   switch (message.event) {
@@ -16,10 +17,9 @@ module.exports = async function dispatcher(message, webSocketServer, ws) {
       break;
     }
     default: {
-      ws.send(JSON.stringify({event: ERROR_OCCUR, content: 'Unknown error'}));
+      throw new Error('Unknown type of message');
     }
   }
-
 }
 
 async function chatMessageEvent(message, webSocketServer, ws) {
@@ -42,7 +42,7 @@ async function chatMessageEvent(message, webSocketServer, ws) {
     if (!participantSessions)
       continue;
 
-    participantSessions.forEach(sessionWs => {console.log(sessionWs.user.username);sessionWs.send(wsMessage)});
+    participantSessions.forEach(sessionWs => {sessionWs.send(wsMessage)});
   }
 }
 
@@ -59,12 +59,6 @@ function createChatMessage(chatId, sender, body) {
   }
 
   return new MessageDto(model);
-}
-
-function createWsMessage(event, payload) {
-
-  return JSON.stringify({event, payload});
-
 }
 
 

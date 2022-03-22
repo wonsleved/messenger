@@ -1,6 +1,4 @@
 import * as actions from "./actions";
-import {CHAT_OPEN} from "./actions";
-
 
 export default function reducer(state = {}, action = {}) {
   switch (action.type) {

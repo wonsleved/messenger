@@ -1,7 +1,9 @@
 export const TOKEN_NAME = 'messenger-token';
+import {wsInitialization} from "../web-sockets/initialization";
 
 export function setAccessToken(token) {
   localStorage.setItem(TOKEN_NAME, token);
+  wsInitialization();
 }
 
 export function getAccessToken() {

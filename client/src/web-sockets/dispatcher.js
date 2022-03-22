@@ -1,33 +1,38 @@
-import { CHAT_MESSAGE } from './message-events';
+import { CHAT_MESSAGE, ERROR_OCCUR } from './message-events';
 import {appendMessage} from "../UI/general/append-message";
+import {handleError} from "../services/error-handlers";
+
 
 
 export function dispatcher(message) {
-  console.log(message);
   switch (message.event) {
     case CHAT_MESSAGE: {
-      return chatMessageEvent(message);
+      return chatMessageEvent(message.payload);
+    }
+    case ERROR_OCCUR: {
+      return handleError(message.payload)
     }
     default: {
+      console.log(message.event);
       alert('unknown type of message');
     }
   }
 
 }
 
-async function chatMessageEvent(message) {
-  if (!message.payload || !message.payload.body)
+async function chatMessageEvent(payload) {
+  if (!payload || !payload.body)
     alert('error with payload');
 
-  if (message.payload.chatId !== window.store.getState().currentChat?.id)
+  if (payload.chatId !== window.store.getState().currentChat?.id)
     return;
 
 
   let messageInfo = {
-    name: message.payload.authorName,
-    content: message.payload.body,
+    name: payload.authorName,
+    content: payload.body,
     isOwner: false,
-    date: message.payload.date
+    date: payload.date
   }
 
   appendMessage(messageInfo);

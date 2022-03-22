@@ -3,6 +3,9 @@ const TokenService = require("../services/token.service");
 const UserEntity = require("../dbentities/user.entity");
 
 const dispatcher = require('./dispatcher');
+const createWsMessage = require('./createWsMessage');
+const {message} = require("../config/config");
+const {ERROR_OCCUR} = require('./message-events');
 
 
 module.exports = function websocketInitialization(websocketServer) {
@@ -41,31 +44,54 @@ function onHeaders(headers, req) {
   req.headerObject = Object.fromEntries(new Map(headersArray));
 }
 
-async function onConnection(websocketServer, ws, req) {
+async function onConnection(websocketServer, ws, req) {``
   try {
 
     await connectionSettings(websocketServer, ws, req);
 
-    ws.on('message', message => {
+    ws.on('message', onMessage);
+
+    ws.on('close', onClose);
+
+    ws.on('error', onError);
+
+
+
+  } catch (error) {
+    ws.send(JSON.stringify(error));
+    // ws.close();
+  }
+
+  async function onMessage(message) {
+    try {
       message = JSON.parse(message);
-      dispatcher(message, websocketServer, ws);
-    });
+      await dispatcher(message, websocketServer, ws);
+    } catch (error) {
+      onError(error);
+    }
+  }
 
-    ws.on('close', () => {
-      console.log('close');
+  function onClose() {
+    console.log('close');
 
-      let userSessions = websocketServer.onlineUsers.get(ws.user.id);
+    let userSessions = websocketServer.onlineUsers.get(ws.user.id);
 
-      if (userSessions && userSessions.length > 1) {
-        userSessions = userSessions.filter(sessionWs => sessionWs !== ws);
-        websocketServer.onlineUsers.set(ws.user.id, userSessions);
-      } else {
-        websocketServer.onlineUsers.delete(ws.user.id);
-      }
-    });
+    if (userSessions && userSessions.length > 1) {
+      userSessions = userSessions.filter(sessionWs => sessionWs !== ws);
+      websocketServer.onlineUsers.set(ws.user.id, userSessions);
+    } else {
+      websocketServer.onlineUsers.delete(ws.user.id);
+    }
+  }
 
-  } catch (e) {
-    ws.send(e.message);
-    ws.close();
+  function onError(error) {
+  const errorInfo = {message: error.message}
+  const message = createWsMessage(ERROR_OCCUR, errorInfo);
+    ws.send(message);
   }
 }
+
+
+
+
+
