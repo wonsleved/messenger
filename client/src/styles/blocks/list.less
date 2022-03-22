@@ -5,22 +5,8 @@
   &__item:not(:last-child) {
     margin-bottom: 10px;
   }
-
-  //  add to mixins
-
-  &::-webkit-scrollbar {
-    width: 8px;
-    height: 10px;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: @stone-color;
-    border-radius: 10px;
-  }
-
-  &::-webkit-scrollbar-track {
-    background: transparent;
-  }
+  
+  .scrollbar();
 
   box-shadow: inset 0 0 10px @tooth-color;
 }

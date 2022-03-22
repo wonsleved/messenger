@@ -12,6 +12,9 @@ import {closeChat} from "../../general/close-chat";
 import {imbeddedInputModalTemplate} from "./imbedded-input-modal.template";
 import {imbeddedParticipantsModalTemplate} from "./imbedded-participants-modal.template";
 import {loadParticipants} from "../../general/load-participants";
+import {toggleModal} from "../../general/toggleModal";
+import {outsideModalClick} from "../../general/outsideModalClick";
+import {closeImbeddedModal} from "../../general/closeImbeddedModal";
 
 const MODAL_CLASS = 'modal';
 const SHOW_MODAL = '_show';
@@ -19,8 +22,8 @@ const SHOW_MODAL = '_show';
 export default class ChatInfoModalComponent extends Block {
   constructor(chat, closeModal, openModal) {
     super('div', {
-      outsideModalClick,
-      toggleModal,
+      outsideModalClick: outsideModalClick(closeModal),
+      toggleModal: toggleModal(closeModal),
       title: chat.title,
       isPrivate: chat.isPrivate,
       addParticipant,
@@ -29,26 +32,6 @@ export default class ChatInfoModalComponent extends Block {
       removeChat,
       showParticipants
     });
-
-    function outsideModalClick({target}) {
-      if (target.classList.contains(MODAL_CLASS)) {
-        closeModal(target);
-        // target.classList.remove(SHOW_MODAL);
-      }
-    }
-
-    function toggleModal(event) {
-      const modalWindow = event.currentTarget.closest('.' + MODAL_CLASS);
-
-      if (!modalWindow)
-        return;
-
-      const contains = modalWindow.contains(event.target);
-      if (!contains)
-        return;
-
-      closeModal(modalWindow);
-    }
 
     function addParticipant(event) {
       event.preventDefault();
@@ -193,21 +176,3 @@ export default class ChatInfoModalComponent extends Block {
   }
 }
 
-
-function openImbeddedChatParticipants(payload) {
-
-  let rootElement = document.getElementsByClassName('page')[0];
-
-  const parser = new DOMParser();
-  const imbeddedModalComponent = new ImbeddedModalComponent(payload, closeImbeddedModal); // Нет смысла передавать туда close
-  const doc = parser.parseFromString(imbeddedModalComponent.render(), 'text/html');
-
-  rootElement.prepend(doc.body.children[0]);
-}
-
-function closeImbeddedModal(event) {
-  const rootElement = document.getElementsByClassName('page')[0];
-  const modalWindow = document.querySelector('[data-modal="imbedded"]');
-  if (rootElement && modalWindow)
-    rootElement.removeChild(modalWindow);
-}
