@@ -1,3 +1,5 @@
+const websocketInitialization = require("./web-sockets/initialization");
+
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const apiRouter = require('./routes/api.route');
@@ -6,16 +8,6 @@ const corsConfigMiddleware = require('./middlerwares/cors-config.middleware');
 const cors = require('cors');
 const WS = require("ws");
 const HttpServer = require('http');
-
-const ApiException = require("./exceptions/api.exception");
-const TokenService = require("./services/token.service");
-const UserEntity = require("./dbentities/user.entity");
-
-
-const MassageService = require('./services/message.service');
-const ChatService = require('./services/chat.service');
-
-
 
 
 module.exports = class Server {
@@ -54,42 +46,10 @@ module.exports = class Server {
     this._app.use(errorMiddleware());
   }
 
-  _initWebSockets(webSocket = this._webSocketServer) {
+  _initWebSockets(websocketServer = this._webSocketServer) {
 
-    webSocket.on('headers', (headers, req) => {
-      const headersArray = req.headers.cookie.split('; ').map(cookie => cookie.split('='));
-      req.headerObject = Object.fromEntries(new Map(headersArray));
-    })
+    websocketInitialization(websocketServer);
 
-    webSocket.on('connection', async (ws, req) => {
-      try {
-        ws.user = await verifyUser(req);
-
-        ws.onlineUsers = this._onlineUsers;
-
-        console.log(ws.user);
-
-        ws.send(`Whats uuuuup, ${ws.user.name}!!!`);
-
-
-        // А если несколько клиентов на одном аккаунте?
-        this._onlineUsers.set(ws.user.username, ws);
-
-        ws.on('message', message => {
-          message = JSON.parse(message);
-          dispatcher(message, this._webSocketServer, ws);
-        });
-
-        ws.on('close', () => {
-          console.log('close');
-          this._onlineUsers.delete(ws.user.username);
-        });
-
-      } catch (e) {
-        ws.send(e.message);
-        ws.close();
-      }
-    });
   }
 
 
@@ -99,38 +59,4 @@ module.exports = class Server {
 
 }
 
-async function verifyUser(req) {
-  const accessToken = req.headerObject.accessToken;
-  if (!accessToken) throw ApiException.unauthorized();
 
-  const userDataFromToken = TokenService.validateAccessToken(accessToken);
-  if (!userDataFromToken) throw ApiException.unauthorized();
-
-  const userDataQueryResult = await UserEntity.findByUsername(userDataFromToken.username);
-  if (!userDataQueryResult) throw ApiException.unauthorized();
-
-  return userDataFromToken;
-}
-
-async function dispatcher(message, webSocketServer, ws) {
-  switch (message.event) {
-    case "chat-message": {
-      const chatParticipants = await ChatService.getChatParticipants(ws.user.id, message.chatId);
-
-
-      for (let participant of chatParticipants) {
-
-        const participantWs = ws.onlineUsers.get(participant.username)
-        if (!participantWs)
-          return;
-
-        if (participantWs !== ws)
-          participantWs.send(JSON.stringify(message))
-
-      }
-
-      break;
-    }
-  }
-
-}

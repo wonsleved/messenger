@@ -1,4 +1,5 @@
 import * as actions from "./actions";
+import {CHAT_OPEN} from "./actions";
 
 
 export default function reducer(state = {}, action = {}) {
@@ -15,6 +16,8 @@ export default function reducer(state = {}, action = {}) {
     case actions.CONTACTS_UPDATE: return {...state, contacts: action.payload}
 
     case actions.CHATS_UPDATE: return {...state, chats: action.payload}
+
+    case actions.CHAT_OPEN : return {...state, currentChat: action.payload}
 
     default: return state;
   }

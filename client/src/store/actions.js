@@ -4,3 +4,4 @@ export const ERROR_OCCUR = 'ERROR/OCCUR';
 export const ERROR_CLEAR = 'ERROR/CLEAR';
 export const CONTACTS_UPDATE = 'CONTACTS/UPDATE';
 export const CHATS_UPDATE = 'CHATS/UPDATE';
+export const CHAT_OPEN = 'CHAT/OPEN';

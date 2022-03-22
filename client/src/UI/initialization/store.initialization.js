@@ -10,12 +10,15 @@ import SignInComponent from "../components/sign-in/sign-in.component";
 
 export async function storeInit() {
   let user = await UserService.getMyInfo();
+
   const initialState = {
     user,
     contacts : [],
     chats: [],
-    errors: []
+    errors: [],
+    currentChat: null
   };
+
   window.store = createStore(reducer, initialState);
 
   window.store.subscribe(manipulateRouter);
