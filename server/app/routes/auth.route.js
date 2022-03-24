@@ -31,16 +31,16 @@ authRouter.post(
 authRouter.post('/logout', AuthController.logout);
 
 //  For test
-authRouter.post(
-  '/delete',
-  body('username').exists().trim().toLowerCase(),
-  validateErrorsMiddleware(),
-  AuthController.delete,
-);
+// authRouter.post(
+//   '/delete',
+//   body('username').exists().trim().toLowerCase(),
+//   validateErrorsMiddleware(),
+//   AuthController.delete,
+// );
 
 authRouter.get('/refresh', AuthController.refresh);
 
 //  Fro test
-authRouter.get('/users', authMiddleware(), AuthController.getAllUsers);
+// authRouter.get('/users', authMiddleware(), AuthController.getAllUsers);
 
 module.exports = authRouter;
