@@ -30,13 +30,18 @@ async function verifyUser(req) {
 }
 
 async function connectionSettings(websocketServer, ws, req) {
-  ws.user = await verifyUser(req);
+  try {
+    ws.user = await verifyUser(req);
 
-  let userSessions = websocketServer.onlineUsers.get(ws.user.id);
-  if (userSessions)
-    websocketServer.onlineUsers.set(ws.user.id, [...userSessions, ws]);
-  else
-    websocketServer.onlineUsers.set(ws.user.id, [ws]);
+    let userSessions = websocketServer.onlineUsers.get(ws.user.id);
+    if (userSessions)
+      websocketServer.onlineUsers.set(ws.user.id, [...userSessions, ws]);
+    else
+      websocketServer.onlineUsers.set(ws.user.id, [ws]);
+  } catch (e) {
+    onError(e, ws);
+    ws.close();
+  }
 }
 
 function onHeaders(headers, req) {
@@ -53,7 +58,7 @@ async function onConnection(websocketServer, ws, req) {``
 
     ws.on('close', onClose);
 
-    ws.on('error', onError);
+    ws.on('error', onError, ws);
 
 
 
@@ -67,7 +72,7 @@ async function onConnection(websocketServer, ws, req) {``
       message = JSON.parse(message);
       await dispatcher(message, websocketServer, ws);
     } catch (error) {
-      onError(error);
+      onError(error, ws);
     }
   }
 
@@ -84,14 +89,14 @@ async function onConnection(websocketServer, ws, req) {``
     }
   }
 
-  function onError(error) {
-  const errorInfo = {message: error.message}
-  const message = createWsMessage(ERROR_OCCUR, errorInfo);
-    ws.send(message);
-  }
+
 }
 
-
+function onError(error, ws) {
+  const errorInfo = {message: error.message}
+  const message = createWsMessage(ERROR_OCCUR, errorInfo);
+  ws.send(message);
+}
 
 
 
