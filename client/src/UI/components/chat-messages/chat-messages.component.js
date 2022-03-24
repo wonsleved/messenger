@@ -7,12 +7,12 @@ import ChatInfoModalComponent from "../chat-info-modal/chat-info-modal.component
 import {appendMessage} from "../../general/append-message";
 import {MessageService} from "../../../services/message.service";
 import {dateFormatting} from "../../general/date-formatting";
+import {getErrorEvent} from "../../events/error.event";
 
 export default class ChatMessagesComponent extends Block {
   constructor(chat) {
     super('div', {
       title: chat.title,
-      // messages: getMessages().then(),
       messageLine: new MessageLineComponent(onSubmit).render(),
       showChatInfo
     });
@@ -43,6 +43,9 @@ export default class ChatMessagesComponent extends Block {
     function onSubmit(event) {
       event.preventDefault();
       let content = event.currentTarget.content.value.trim();
+
+      if (content.length > 255)
+        return document.dispatchEvent(getErrorEvent(`Length must be less than 255, now ${content.length}`));
 
       if (!content)
         return;

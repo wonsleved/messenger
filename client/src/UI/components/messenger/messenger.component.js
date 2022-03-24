@@ -11,6 +11,7 @@ import {loadContacts} from "../../general/load-contacts";
 import {loadChats} from "../../general/load-chats";
 import ChatMessagesComponent from "../chat-messages/chat-messages.module";
 import ContactInfoModalComponent from "../contact-info-modal/contact-info-modal.component";
+import UserInfoModalComponent from "../user-info-modal/user-info-modal.component";
 
 
 
@@ -26,7 +27,8 @@ export default class MessengerComponent extends Block {
       openContactModal,
       openChatModal,
       showContacts,
-      showChats
+      showChats,
+      showUserInfo
     });
   }
 
@@ -101,8 +103,15 @@ function swapListFunc() {
   return { showContacts, showChats }
 }
 
-// function openChat(event) {
-//
-// }
+function showUserInfo(event) {
+  event.preventDefault();
+
+  let rootElement = document.getElementsByClassName('page')[0];
+
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(new UserInfoModalComponent().render(), 'text/html');
+
+  rootElement.prepend(doc.body.children[0]);
+}
 
 

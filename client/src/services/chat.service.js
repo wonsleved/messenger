@@ -2,6 +2,7 @@ import {ChatFetchAdapter} from "../adapters/chat-fetch-adapter";
 import {handleAuthError} from "./error-handlers";
 import {getAccessToken} from "./access-token-action";
 import {UserFetchAdapter} from "../adapters/user-fetch-adapter";
+import {CHATS_UPDATE} from "../web-sockets/message-events";
 
 export class ChatService {
   static async writeUser(userId) {

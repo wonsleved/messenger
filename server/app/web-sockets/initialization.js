@@ -7,6 +7,8 @@ const createWsMessage = require('./createWsMessage');
 const {message} = require("../config/config");
 const {ERROR_OCCUR} = require('./message-events');
 
+const UNAUTHORIZED_CODE = 4001;
+
 
 module.exports = function websocketInitialization(websocketServer) {
   websocketServer.onlineUsers = new Map();
@@ -30,7 +32,6 @@ async function verifyUser(req) {
 }
 
 async function connectionSettings(websocketServer, ws, req) {
-  try {
     ws.user = await verifyUser(req);
 
     let userSessions = websocketServer.onlineUsers.get(ws.user.id);
@@ -38,10 +39,6 @@ async function connectionSettings(websocketServer, ws, req) {
       websocketServer.onlineUsers.set(ws.user.id, [...userSessions, ws]);
     else
       websocketServer.onlineUsers.set(ws.user.id, [ws]);
-  } catch (e) {
-    onError(e, ws);
-    ws.close();
-  }
 }
 
 function onHeaders(headers, req) {
@@ -51,20 +48,16 @@ function onHeaders(headers, req) {
 
 async function onConnection(websocketServer, ws, req) {``
   try {
-
     await connectionSettings(websocketServer, ws, req);
 
     ws.on('message', onMessage);
 
     ws.on('close', onClose);
 
-    ws.on('error', onError, ws);
-
-
+    ws.on('error', (error) => onError(error, ws));
 
   } catch (error) {
-    ws.send(JSON.stringify(error));
-    // ws.close();
+    onError(error, ws);
   }
 
   async function onMessage(message) {
@@ -93,7 +86,16 @@ async function onConnection(websocketServer, ws, req) {``
 }
 
 function onError(error, ws) {
-  const errorInfo = {message: error.message}
+  let errorCode;
+  if (error instanceof ApiException) {
+    if (error.status === 401) ws.close(UNAUTHORIZED_CODE);
+    errorCode = error.status;
+  }
+  else
+    errorCode = 1006;
+
+
+  const errorInfo = {message: error.message, code: errorCode}
   const message = createWsMessage(ERROR_OCCUR, errorInfo);
   ws.send(message);
 }

@@ -1,24 +1,47 @@
-const {CHAT_MESSAGE, ERROR_OCCUR} = require('./message-events');
 const ChatService = require("../services/chat.service");
 const MessageDto = require("../dtos/message.dto");
 const createWsMessage = require("./createWsMessage");
 const MessageService = require("../services/message.service");
 
+const {
+  CHAT_MESSAGE,
+  ERROR_OCCUR,
+  CHATS_UPDATE,
+  CHAT_DELETE,
+  CHAT_LEAVE,
+  CHAT_REMOVE_PARTICIPANT,
+  CHAT_ADD_PARTICIPANT,
+  CHAT_CREATED} = require('./message-events');
+
+
+
+
 const MY_NOT_READ = 0;
 const OTHER_NOT_READ = 2;
 
 module.exports = async function dispatcher(message, webSocketServer, ws) {
+  console.log(message);
   switch (message.event) {
     case CHAT_MESSAGE: {
       return await chatMessageEvent(message, webSocketServer, ws);
     }
-    case "test-message": {
-
-      webSocketServer.onlineUsers.forEach((sessions) => {
-        sessions.forEach(sessionWs => sessionWs.send(JSON.stringify(message)));
-      });
-
-      break;
+    case CHATS_UPDATE: {
+      return await chatsUpdate(message, webSocketServer, ws);
+    }
+    case CHAT_DELETE: {
+      return await chatDeleted(message, webSocketServer, ws);
+    }
+    case CHAT_LEAVE: {
+      return await chatLeave(message, webSocketServer, ws);
+    }
+    case CHAT_REMOVE_PARTICIPANT: {
+      return await updateUserChats(message, webSocketServer, ws);
+    }
+    case CHAT_ADD_PARTICIPANT: {
+      return await updateUserChats(message, webSocketServer, ws);
+    }
+    case CHAT_CREATED: {
+      return await chatCreated(message, webSocketServer, ws);
     }
     default: {
       throw new Error('Unknown type of message');
@@ -75,6 +98,113 @@ function createChatMessage(messageInfo, registry = OTHER_NOT_READ) {
   }
 
   return new MessageDto(model);
+}
+
+async function chatsUpdate(message, webSocketServer, ws) {
+  if (!ws.user || !message.payload || !message.payload.chatId)
+    return;
+
+  const chatParticipants = await ChatService.getChatParticipants(ws.user.id, message.payload.chatId);
+
+  if (!chatParticipants)
+    return;
+
+  const messageInfo = JSON.stringify({event: CHATS_UPDATE});
+
+  for (let participant of chatParticipants) {
+    const participantSessions = webSocketServer.onlineUsers.get(participant.userId);
+    if (!participantSessions)
+      continue;
+
+    participantSessions.forEach(sessionWs => {
+      if (sessionWs === ws)
+        return;
+
+      sessionWs.send(messageInfo)
+    });
+
+  }
+}
+
+async function chatDeleted(message, webSocketServer, ws) {
+  if (!ws.user || !message.payload || !message.payload.chatId)
+    return;
+
+  const chatParticipants = await ChatService.getChatParticipants(ws.user.id, message.payload.chatId);
+
+  if (!chatParticipants)
+    return;
+
+  const messageInfo = JSON.stringify({event: CHATS_UPDATE});
+
+  for (let participant of chatParticipants) {
+    const participantSessions = webSocketServer.onlineUsers.get(participant.userId);
+    if (!participantSessions)
+      continue;
+
+    participantSessions.forEach(sessionWs => {
+      if (sessionWs === ws)
+        return;
+
+      sessionWs.send(messageInfo)
+    });
+
+  }
+}
+
+async function chatCreated(message, webSocketServer, ws) {
+  if (!ws.user || !message.payload || !message.payload.chatId)
+    return;
+
+  const messageInfo = JSON.stringify({event: CHATS_UPDATE});
+
+  const userSessions = webSocketServer.onlineUsers.get(ws.user.id);
+  if (!userSessions)
+    return;
+
+  userSessions.forEach(sessionWs => {
+    if (sessionWs === ws)
+      return;
+
+    sessionWs.send(messageInfo)
+  });
+}
+
+async function chatLeave(message, webSocketServer, ws) {
+  if (!ws.user || !message.payload || !message.payload.chatId)
+    return;
+
+  const messageInfo = JSON.stringify({event: CHATS_UPDATE});
+
+  const userSessions = webSocketServer.onlineUsers.get(ws.user.id);
+  if (!userSessions)
+    return;
+
+  userSessions.forEach(sessionWs => {
+    if (sessionWs === ws)
+      return;
+
+    sessionWs.send(messageInfo)
+  });
+}
+
+
+async function updateUserChats(message, webSocketServer, ws) {
+  if (!ws.user || !message.payload || !message.payload.chatId || !message.payload.userId)
+    return;
+
+  const messageInfo = JSON.stringify({event: CHATS_UPDATE});
+
+  const userSessions = webSocketServer.onlineUsers.get(message.payload.userId);
+  if (!userSessions)
+    return;
+
+  userSessions.forEach(sessionWs => {
+    if (sessionWs === ws)
+      return;
+
+    sessionWs.send(messageInfo);
+  });
 }
 
 

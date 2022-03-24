@@ -5,7 +5,9 @@ module.exports = {
   CHAT_REMOVE_PARTICIPANT: 'chat/remove-participant',
   CHAT_ADD_PARTICIPANT: 'chat/add-participant',
   CHAT_CREATED: 'chat/created',
-  ERROR_OCCUR: 'error/occur'
+  ERROR_OCCUR: 'error/occur',
+  CHATS_UPDATE: 'chat/update',
+  PARTICIPANTS_UPDATE: 'participants/update'
 }
 
 

@@ -14,7 +14,7 @@ export const messengerTemplate = (function () {
             <span class="headline__logo-text">Messenger</span>
 
             <div class="headline__auth">
-                <span class="user-profile">{{ username }}</span>
+                <span onclick="{{ showUserInfo }}" class="user-profile">{{ username }}</span>
                 <button class="go-back-button" onclick="{{ logoutAction }}">Logout</button>
             </div>
 

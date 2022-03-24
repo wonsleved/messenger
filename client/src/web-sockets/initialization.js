@@ -1,6 +1,10 @@
 import {dispatcher} from "./dispatcher";
 import {sendMessage} from "./send-message";
 import {getAccessToken} from "../services/access-token-action";
+import {AuthService} from "../services/auth.service";
+
+const UNAUTHORIZED_CODE = 4001;
+const CLIENT_CLOSE = 4000;
 
 
 export function wsInitialization() {
@@ -12,7 +16,7 @@ export function wsInitialization() {
 
 export function wsConfigure() {
   if (window.webSocket && window.webSocket.readyState === WebSocket.OPEN)
-    window.webSocket.close();
+    window.webSocket.close(CLIENT_CLOSE);
 
   let socket = new WebSocket("ws://localhost/ws");
 
@@ -46,7 +50,29 @@ function onError(error) {
 }
 
 
-function onClose(event) {
+async function onClose(event) {
+  console.log('[close]');
+  if (event.code === CLIENT_CLOSE)
+    return;
+
+  console.log(event);
+  if (event.code === UNAUTHORIZED_CODE) {
+    const token = await AuthService.refresh();
+    if (token)
+      setTimeout(tryReopen, 2000);
+    else
+      return;
+  }
+
+
   console.log('Try to reopen...');
-  setTimeout(wsInitialization, 2000);
+  setTimeout(tryReopen, 2000);
 }
+
+function tryReopen() {
+  if (window.webSocket && window.webSocket.readyState === WebSocket.OPEN)
+    return;
+
+  wsInitialization();
+}
+

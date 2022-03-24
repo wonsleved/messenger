@@ -30,8 +30,10 @@ const {
 
 class MessageService {
   static async createMessage(userId, chatId, messageBody) {
-    //  some check
-    //  ...
+    // check if user in chat
+    const userInChat = await ChatEntity.findUserInChat(chatId, userId);
+    if (!userInChat)
+      throw ApiException.accessDenied();
 
     let { messageId, date } = await MessageEntity.addMessage(userId, chatId, messageBody);
 
@@ -55,6 +57,10 @@ class MessageService {
   static async getAllMessages(userId, chatId) {
     //  some check
     //  ...
+    // check if user in chat
+    const userInChat = await ChatEntity.findUserInChat(chatId, userId);
+    if (!userInChat)
+      throw ApiException.accessDenied();
 
     let messages = await MessageEntity.getMessages(userId, chatId);
 

@@ -154,6 +154,15 @@ class ChatEntity {
 
     return query;
   }
+
+  static async findUserInChat(chatId, userId) {
+    const query = await db.query(
+      'SELECT * FROM "participant" WHERE conversation_id=$1 AND user_id=$2',
+      [chatId, userId],
+    );
+
+    return query.rows[0];
+  }
 }
 
 module.exports = ChatEntity;

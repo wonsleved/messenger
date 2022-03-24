@@ -25,7 +25,7 @@ export const chatInfoModalTemplate = (function () {
                             class="modal-button _red"
                             onmousedown="{{ leaveChat }}"
                         >
-                            Logout
+                            Leave
                         </button>
                         <button 
                             class="modal-button _warning"
