@@ -24,10 +24,10 @@ export default class ChatComponent extends Block {
 
 function openChatCreator(chat) {
 
-  function openConversation(event) {
+  async function openConversation(event) {
     event.preventDefault();
 
-    openChat(chat);
+    await openChat(chat);
   }
 
   return openConversation;

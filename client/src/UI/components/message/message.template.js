@@ -1,6 +1,6 @@
 export const messageTemplate = (function () {
   return `
-  <div class="message {{{ this.isOwner ? '_own' : '' }}}">
+  <div class="message messages-list__message {{{ this.isOwner ? '_own' : '' }}}">
     <div class="message__owner-name">
         {{ name }}
     </div>

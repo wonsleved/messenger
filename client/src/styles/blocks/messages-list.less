@@ -6,6 +6,11 @@
   flex-direction: column-reverse;
   overflow-y: scroll;
   overflow-x: hidden;
+  flex-flow: column nowrap;
+
+  &__message:first-child {
+    margin-top: auto;
+  }
 
   .scrollbar();
 }

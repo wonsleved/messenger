@@ -12,7 +12,7 @@ export const chatMessagesTemplate = (function () {
             </div>
         </header>
 
-        <section class="messages-list messenger-chat__messages-list">
+        <section class="messages-list messenger-chat__messages-list" data-list="messages">
         
             {{ messages }}
 

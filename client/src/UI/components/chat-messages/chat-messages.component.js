@@ -5,12 +5,14 @@ import MessageComponent from "../message/message.component";
 import MessageLineComponent from "../message-line/message-line.component";
 import ChatInfoModalComponent from "../chat-info-modal/chat-info-modal.component";
 import {appendMessage} from "../../general/append-message";
+import {MessageService} from "../../../services/message.service";
+import {dateFormatting} from "../../general/date-formatting";
 
 export default class ChatMessagesComponent extends Block {
   constructor(chat) {
     super('div', {
       title: chat.title,
-      messages: getMessages(),
+      // messages: getMessages().then(),
       messageLine: new MessageLineComponent(onSubmit).render(),
       showChatInfo
     });
@@ -46,10 +48,10 @@ export default class ChatMessagesComponent extends Block {
         return;
 
       let messageInfo = {
-        name: window.store.getState().user.name,
-        content,
-        isOwner: true,
-        date: '18.03.2022 17:10'
+        authorName: window.store.getState().user.name,
+        body: content,
+        registry: 0,
+        date: new Date()
       }
 
       appendMessage(messageInfo);
@@ -57,6 +59,15 @@ export default class ChatMessagesComponent extends Block {
       window.sendWsMessage(chat.id, content);
 
       event.currentTarget.content.value = '';
+    }
+
+    async function getMessages() {
+
+      let messages = await MessageService.getChatMessages(chat.id);
+
+      let messageComponents = messages.map(mess => new MessageComponent(mess).render());
+
+      return messageComponents;
     }
   }
 
@@ -68,16 +79,7 @@ export default class ChatMessagesComponent extends Block {
 
 
 
-function getMessages() {
-  let messageInfo = {
-    name: 'Sanya',
-    content: 'Hello world!',
-    isOwner: false,
-    date: '18.03.2022 17:10'
-  }
 
-  return [new MessageComponent(messageInfo).render()];
-}
 
 
 
