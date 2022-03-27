@@ -6,6 +6,7 @@ import {loadContacts} from "../../general/load-contacts";
 import {openChat} from "../../general/open-chat";
 import {ChatService} from "../../../services/chat.service";
 import {loadChats} from "../../general/load-chats";
+import {toggleSideMenu} from "../../general/toggleSideMenu";
 
 
 const MODAL_CLASS = 'modal';
@@ -62,6 +63,7 @@ export default class ContactInfoModalComponent extends Block {
       openChat(chatInfo);
 
       closeModal();
+      toggleSideMenu(event);
     }
 
 

@@ -12,6 +12,7 @@ import {loadChats} from "../../general/load-chats";
 import ChatMessagesComponent from "../chat-messages/chat-messages.module";
 import ContactInfoModalComponent from "../contact-info-modal/contact-info-modal.component";
 import UserInfoModalComponent from "../user-info-modal/user-info-modal.component";
+import {toggleSideMenu} from "../../general/toggleSideMenu";
 
 
 
@@ -28,7 +29,8 @@ export default class MessengerComponent extends Block {
       openChatModal,
       showContacts,
       showChats,
-      showUserInfo
+      showUserInfo,
+      toggleSideMenu
     });
   }
 
@@ -113,5 +115,3 @@ function showUserInfo(event) {
 
   rootElement.prepend(doc.body.children[0]);
 }
-
-

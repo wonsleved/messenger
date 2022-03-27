@@ -4,9 +4,16 @@
   position: relative;
   background-color: @swan-white-color;
   font-family: 'Poppins', sans-serif;
+  overflow: hidden;
+
+  min-width: 300px;
 
   &__header {
     margin-bottom: @headline-margin;
+
+    @media screen and (max-width: 700px) {
+      margin-bottom: 0;
+    }
   }
 
   &__auth-form {
@@ -14,17 +21,39 @@
     display: flex;
     justify-content: center;
     align-items: center;
+
+    @media screen and (max-width: 900px) {
+      margin-top: 100px;
+    }
+
+    @media screen and (max-width: 440px) {
+      margin-top: 50px;
+    }
   }
 
   &__first-look-content {
     margin: 150px auto 0;
     max-width: 50%;
+
+    @media screen and (max-width: 900px) {
+      max-width: 80%;
+    }
+
+    @media screen and (max-width: 700px) {
+      margin: 50px auto 0;
+      max-width: 100%;
+    }
+
   }
 
   &__messenger {
     height: calc(100vh - @headline-height - @headline-margin - @messenger-margin-bottom);
     margin-bottom: @messenger-margin-bottom;
     width: 100%;
+
+    @media screen and (max-width: 700px) {
+      height: calc(100vh - @small-headline-height);
+    }
   }
 
   &__modal {

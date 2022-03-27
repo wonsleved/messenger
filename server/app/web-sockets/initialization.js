@@ -42,6 +42,9 @@ async function connectionSettings(websocketServer, ws, req) {
 }
 
 function onHeaders(headers, req) {
+  if (!req.headers.cookie)
+    return req.headerObject = {};
+
   const headersArray = req.headers.cookie.split('; ').map(cookie => cookie.split('='));
   req.headerObject = Object.fromEntries(new Map(headersArray));
 }

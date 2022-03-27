@@ -1,6 +1,6 @@
 .message {
   background-color: @message-white-color;
-  max-width: 45%;
+  max-width: 50%;
   padding: 10px 15px;
   border-radius: 20px 20px 20px 0;
   margin: 5px 0;
@@ -10,9 +10,18 @@
   display: flex;
   flex-direction: column;
 
+  @media screen and (max-width: 1200px) {
+    max-width: 90%;
+  }
+
   &._own {
-    align-self: flex-end;
-    border-radius: 20px 20px 0 20px;
+    align-self: flex-start;
+    border-radius: 20px 20px 20px 0;
+
+    @media screen and (max-width: 1200px) {
+      align-self: flex-end;
+      border-radius: 20px 20px 0 20px;
+    }
   }
 
   &__owner-name {
@@ -23,6 +32,11 @@
     border-bottom: 1px solid @stone-color;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+
+  &._own &__owner-name {
+    border-bottom: 1px solid @purple-color;
+
   }
 
   &__content {

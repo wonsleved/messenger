@@ -1,7 +1,8 @@
 .messenger {
-  width: 1300px;
+  max-width: 1300px;
   margin: 0 auto;
   height: 100%;
+  position: relative;
 
   border-right: 2px solid @stone-color;
   border-left: 2px solid @stone-color;
@@ -11,16 +12,40 @@
   grid-template-rows: 100%;
   grid-template-areas: "menu chat";
 
-  & > :nth-child(odd):not(:last-child) {
-    border-right: 2px solid @stone-color;
+  @messenger-headline-height: 40px;
+
+  @media screen and (max-width: 700px) {
+    grid-template-rows: @messenger-headline-height calc(100% - @messenger-headline-height);
+    grid-template-columns: 100%;
+    grid-template-areas:"headline headline"
+                        "chat chat";
+    &._menu {
+      grid-template-areas:"headline headline"
+                          "menu menu";
+    }
+  }
+
+  &__headline {
+    grid-area: headline;
+    display: none;
+    @media screen and (max-width: 700px) {
+      display: block;
+    }
+    border-bottom: 2px solid #aaa69d;
   }
 
   &__menu {
     grid-area: menu;
+    border-right: 2px solid @stone-color;
+
+    @media screen and (max-width: 700px) {
+      border-right: none;
+    }
   }
 
   &__chat {
     grid-area: chat;
+    max-width: max(100vw, 300px);
   }
 
   &__footer {

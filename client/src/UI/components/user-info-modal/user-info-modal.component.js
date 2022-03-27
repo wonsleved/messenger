@@ -1,6 +1,8 @@
 import Block from '../../modules/block/index.js';
 import {compile} from '../../utils/templator.js';
 import {userInfoModalTemplate} from "./user-info-modal.template";
+import {AuthService} from "../../../services/auth.service";
+import {LOGOUT} from "../../../store/actions";
 
 
 const MODAL_CLASS = 'modal';
@@ -12,6 +14,7 @@ export default class UserInfoModalComponent extends Block {
       toggleModal,
       username: window.store.getState().user.username,
       name: window.store.getState().user.name,
+      logout
     });
 
 
@@ -47,5 +50,15 @@ function closeContactInfoModal(event) {
   const modalWindow = document.querySelector('[data-modal="user-info"]');
   if (rootElement && modalWindow)
     rootElement.removeChild(modalWindow);
+}
+
+async function logout(event) {
+  event.preventDefault();
+
+  let userData = await AuthService.logout();
+
+  window.store.dispatch({ type: LOGOUT });
+
+  window.router.go('/');
 }
 

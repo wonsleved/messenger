@@ -13,12 +13,14 @@ export function wsInitialization() {
   }
 }
 
+const defaultServerAddress = '192.168.43.201';
+
 
 export function wsConfigure() {
   if (window.webSocket && window.webSocket.readyState === WebSocket.OPEN)
     window.webSocket.close(CLIENT_CLOSE);
 
-  let socket = new WebSocket("ws://localhost/ws");
+  let socket = new WebSocket(`ws://${defaultServerAddress}/ws`);
 
   socket.onopen = onOpen;
 

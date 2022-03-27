@@ -1,12 +1,14 @@
 import {ResponseException} from "../exceptions/response.exception.js";
 import 'regenerator-runtime/runtime'; // ???
 
+const defaultServerAddress = 'http://192.168.43.201';
+
 export class FetchServer {
 
   _serverAddress = null;
 
   constructor(serverAddress) {
-    this._serverAddress = serverAddress ?? 'http://localhost';
+    this._serverAddress = serverAddress ?? defaultServerAddress;
   }
 
   GET = 'GET';

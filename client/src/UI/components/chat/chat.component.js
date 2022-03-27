@@ -5,6 +5,7 @@ import personImgSrc from '../../images/person.svg';
 import ChatMessagesComponent from "../chat-messages/chat-messages.module";
 import CloneDeep from "../../utils/cloneDeep";
 import {openChat} from "../../general/open-chat";
+import {toggleSideMenu} from "../../general/toggleSideMenu";
 
 
 export default class ChatComponent extends Block {
@@ -28,6 +29,8 @@ function openChatCreator(chat) {
     event.preventDefault();
 
     await openChat(chat);
+
+    toggleSideMenu(event);
   }
 
   return openConversation;

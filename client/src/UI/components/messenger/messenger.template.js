@@ -14,8 +14,7 @@ export const messengerTemplate = (function () {
             <span class="headline__logo-text">Messenger</span>
 
             <div class="headline__auth">
-                <span onclick="{{ showUserInfo }}" class="user-profile">{{ username }}</span>
-                <button class="go-back-button" onclick="{{ logoutAction }}">Logout</button>
+                <span onclick="{{ showUserInfo }}" class="user-profile headline__user-profile">{{ username }}</span>
             </div>
 
         </header>
@@ -23,6 +22,14 @@ export const messengerTemplate = (function () {
         <main class="page__messenger">
 
             <div class="messenger">
+            
+                <section class="messenger__headline">
+                    <button class="burger-button" onclick="{{ toggleSideMenu }}">
+                        <span class="burger-button__row"></span>
+                        <span class="burger-button__row"></span>
+                        <span class="burger-button__row"></span>
+                    </button>
+                </section>
 
                 <section class="messenger__menu messenger-menu">
 
