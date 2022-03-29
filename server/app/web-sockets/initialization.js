@@ -73,8 +73,6 @@ async function onConnection(websocketServer, ws, req) {``
   }
 
   function onClose() {
-    console.log('close');
-
     let userSessions = websocketServer.onlineUsers.get(ws.user.id);
 
     if (userSessions && userSessions.length > 1) {
