@@ -1,0 +1,29 @@
+.errors-list {
+  @size: 300px;
+  position: absolute;
+  bottom: 0;
+  right: 30px;
+  z-index: 111;
+  max-width: 90%;
+  width: @size;
+  max-height: 50%;
+  overflow-y: scroll;
+  padding-right: 10px;
+
+  .scrollbar();
+
+
+  &__message {
+    max-height: @size;
+    overflow: hidden;
+    white-space: pre-wrap;
+    text-overflow: ellipsis;
+    width: 100%;
+
+    margin-bottom: 20px;
+    padding: 30px;
+    background-color: @red-color;
+    color: @swan-white-color;
+    border-radius: 30px;
+  }
+}

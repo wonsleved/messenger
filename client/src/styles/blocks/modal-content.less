@@ -1,0 +1,33 @@
+.modal-content {
+  padding: 20px 20px 10px 20px;
+  background-color: @swan-white-color;
+  border-radius: 10px;
+  color: @coffee-color;
+  word-break: break-all;
+  white-space: nowrap;
+
+  &__title {
+    font-size: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 0 0 @coffee-color;
+    overflow: hidden;
+  }
+
+  &__text {
+    font-size: 16px;
+    overflow: hidden;
+  }
+
+  &__input {
+    margin-bottom: 10px;
+  }
+
+  &__button {
+    float: right;
+    margin: 2px;
+  }
+
+  @media screen and (max-width: 700px) {
+    width: 300px;
+  }
+}

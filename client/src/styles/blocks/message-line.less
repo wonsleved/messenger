@@ -1,0 +1,39 @@
+.message-line {
+  width: 100%;
+  border-top: 2px solid @stone-color;
+  border-bottom: 2px solid @stone-color;
+  display: flex;
+
+  &__input {
+    flex-grow: 1;
+    padding: 15px 30px;
+    background-color: transparent;
+    outline: none;
+    font-size: 18px;
+    line-height: 1.2em;
+    overflow: hidden;
+    border: none;
+    color: @coffee-color;
+
+    &::placeholder {
+      color: @stone-color;
+      user-select: none;
+    }
+  }
+
+  &__button {
+    background-color: @tooth-color;
+    padding: 0 20px;
+    cursor: pointer;
+    user-select: none;
+    outline: none;
+    border: none;
+    color: @coffee-color;
+    font-weight: 600;
+    transition: 0.3s;
+
+    &:hover {
+      box-shadow: inset 0 0 5px 1px @stone-color;
+    }
+  }
+}

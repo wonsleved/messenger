@@ -38,7 +38,7 @@ class MessageEntity {
   static async getUserMessageInfo(ownerId, messageId) {
     const queryResult = await db.query(
       `
-        SELECT id, "authorId", "authorName", "chatId", registry, body, body
+        SELECT id, "authorId", "authorName", "chatId", registry, body, body, created_at AS "date"
         FROM "message_registry" INNER JOIN (
             SELECT "message".id AS "id", author_id AS "authorId", body,
                    name AS "authorName", conversation_id AS "chatId"

@@ -1,0 +1,34 @@
+.auth-button {
+  padding: 10px 15px;
+  border-radius: 30px;
+  border: 2px solid @purple-color;
+  background-color: transparent;
+  transition: 0.3s;
+  outline: none;
+  cursor: pointer;
+
+  &._sign-up {
+    color: @purple-color;
+
+    &:hover {
+      box-shadow: inset 0 0 5px 1px @purple-color;
+    }
+
+    &:focus {
+      box-shadow: inset 0 0 10px 2px @purple-color;
+    }
+  }
+
+  &._sign-in {
+    background-color: @purple-color;
+    color: @swan-white-color;
+
+    &:hover {
+      box-shadow: inset 0 0 5px 1px @liberty-color;
+    }
+
+    &:focus {
+      box-shadow: inset 0 0 10px 2px @liberty-color;
+    }
+  }
+}

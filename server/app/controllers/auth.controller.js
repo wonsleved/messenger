@@ -10,8 +10,10 @@ class AuthController {
       const userData = await AuthService.register(username, name, password);
 
       //  add refresh to cookie;
-      const cookieOptions = config.cookieOptions.refreshToken;
-      res.cookie('refreshToken', userData.refreshToken, cookieOptions); // 30 days
+      const cookieOptionsRefreshToken = config.cookieOptions.refreshToken;
+      const cookieOptionsAccessToken = config.cookieOptions.refreshToken;
+      res.cookie('refreshToken', userData.refreshToken, cookieOptionsRefreshToken); // 30 days
+      res.cookie('accessToken', userData.accessToken, cookieOptionsAccessToken); // 30 minutes
 
       return res.send(userData);
     } catch (e) {
@@ -26,8 +28,10 @@ class AuthController {
       const userData = await AuthService.login(username, password);
 
       //  add refresh to cookie;
-      const cookieOptions = config.cookieOptions.refreshToken;
-      res.cookie('refreshToken', userData.refreshToken, cookieOptions); // 30 days
+      const cookieOptionsRefreshToken = config.cookieOptions.refreshToken;
+      const cookieOptionsAccessToken = config.cookieOptions.refreshToken;
+      res.cookie('refreshToken', userData.refreshToken, cookieOptionsRefreshToken); // 30 days
+      res.cookie('accessToken', userData.accessToken, cookieOptionsAccessToken); // 30 minutes
 
       return res.send(userData);
     } catch (e) {
@@ -43,6 +47,7 @@ class AuthController {
 
       //  remove from cookie
       res.clearCookie('refreshToken');
+      res.clearCookie('accessToken');
 
       return res.send(tokenData);
     } catch (e) {
@@ -67,8 +72,10 @@ class AuthController {
       const userData = await AuthService.refresh(refreshToken);
 
       //  update refresh in cookie
-      const cookieOptions = config.cookieOptions.refreshToken;
-      res.cookie('refreshToken', userData.refreshToken, cookieOptions); // 30 days
+      const cookieOptionsRefreshToken = config.cookieOptions.refreshToken;
+      const cookieOptionsAccessToken = config.cookieOptions.refreshToken;
+      res.cookie('refreshToken', userData.refreshToken, cookieOptionsRefreshToken); // 30 days
+      res.cookie('accessToken', userData.accessToken, cookieOptionsAccessToken); // 30 minutes
       return res.send(userData);
     } catch (e) {
       next(e);

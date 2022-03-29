@@ -1,0 +1,71 @@
+version: "3.9"
+
+services:
+  postgres:
+    container_name: postgres-prod
+    image: postgres:14.2
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./server/app/migrations/database.sql:/docker-entrypoint-initdb.d/dbinit.sql
+    restart: always
+    env_file: .env
+    environment:
+      - POSTGRES_USER=$POSTGRES_USER
+      - POSTGRES_PASSWORD=$POSTGRES_PASSWORD
+      - POSTGRES_DB=$POSTGRES_DB
+    networks:
+      - messenger
+
+  server-api:
+    build:
+      context: server
+    image: messenger-server
+    container_name: m-server-prod
+    env_file:
+      - ./server/.env
+      - .env
+    networks:
+      - messenger
+    depends_on:
+      - postgres
+
+  client:
+    build:
+      context: client
+    image: messenger-client
+    container_name: m-client-prod
+    env_file:
+      - .env
+    networks:
+      - messenger
+    depends_on:
+      - server-api
+      - postgres
+    volumes:
+      - ./client:/usr/src/app
+
+  nginx:
+    build:
+      context: nginx
+      dockerfile: Dockerfile
+    image: messenger-nginx
+    container_name: m-nginx-prod
+    env_file:
+      - .env
+    ports:
+      - "80:80"
+    depends_on:
+      - server-api
+      - client
+      - postgres
+    networks:
+      - messenger
+    restart: always
+
+
+volumes:
+  postgres_data:
+
+networks:
+  messenger:
+    driver: bridge

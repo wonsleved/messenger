@@ -1,0 +1,120 @@
+.button {
+
+  background-color: transparent;
+  transition: 0.3s;
+  outline: none;
+  cursor: pointer;
+  border: none;
+
+  &._auth {
+    padding: 10px 15px;
+    border: 2px solid @purple-color;
+    border-radius: 30px;
+
+    &._sign-up {
+      color: @purple-color;
+
+      &:hover {
+        box-shadow: inset 0 0 5px 1px @purple-color;
+      }
+
+      &:focus {
+        box-shadow: inset 0 0 10px 2px @purple-color;
+      }
+    }
+
+    &._sign-in {
+      background-color: @purple-color;
+      color: @swan-white-color;
+
+      &:hover {
+        box-shadow: inset 0 0 5px 1px @liberty-color;
+      }
+
+      &:focus {
+        box-shadow: inset 0 0 10px 2px @liberty-color;
+      }
+    }
+  }
+
+  &._add {
+    color: @dark-color;
+    background-color: @tooth-color;
+    padding: 15px 15px;
+    box-shadow: inset 0 0 0 0 rgba(0, 0, 0, 0.2);
+    width: 100%;
+
+    &:hover {
+      box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.2);
+    }
+  }
+
+  &._out {
+    position: relative;
+    color: @coffee-color;
+    padding: 10px 2px;
+
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      box-shadow: 0 0 0 1px @coffee-color;
+      background-color: @coffee-color;
+      transition: 0.3s;
+    }
+
+    &:hover{
+      &::after {
+        box-shadow: 0 0 0 2px @coffee-color;
+      }
+    }
+
+    &:focus {
+      &::after {
+        box-shadow: 0 0 0 2px @coffee-color;
+      }
+    }
+  }
+
+  &._submit {
+    padding: 10px;
+    border-radius: 10px;
+    color: @swan-white-color;
+    font-size: 16px;
+    border: 2px solid @purple-color;
+    background-color: @purple-color;
+
+    &:hover {
+      box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.1);
+    }
+  }
+
+  &._modal {
+    padding: 10px 15px;
+    border: 2px solid transparent;
+    border-radius: 10px;
+    color: @coffee-color;
+
+    &._green:hover {
+      border-color: @green-color;
+      color: @green-color;
+    }
+
+    &._red:hover {
+      border-color: @red-color;
+      color: @red-color;
+    }
+
+    &._warning:hover {
+      border-color: @red-color;
+      background-color: @red-color;
+      color: @swan-white-color;
+    }
+
+    &:hover {
+      border-color: @tooth-color;
+    }
+  }
+}

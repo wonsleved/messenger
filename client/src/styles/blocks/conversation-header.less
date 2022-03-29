@@ -1,0 +1,24 @@
+.conversation-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 20px 10px 30px;
+  align-items: baseline;
+  border-bottom: 2px solid @stone-color;
+  cursor: pointer;
+  transition: 0.3s;
+
+  &:hover {
+    box-shadow: inset 0px -1px 1px @tooth-color;
+  }
+
+  &__title {
+    color: @coffee-color;
+    font-weight: 600;
+    font-size: 20px;
+    max-width: 60%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+}

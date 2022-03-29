@@ -1,18 +1,13 @@
+const websocketInitialization = require("./web-sockets/initialization");
+
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const apiRouter = require('./routes/api.route');
 const errorMiddleware = require('./middlerwares/error.middleware');
+const corsConfigMiddleware = require('./middlerwares/cors-config.middleware');
+const cors = require('cors');
 const WS = require("ws");
 const HttpServer = require('http');
-
-const ApiException = require("./exceptions/api.exception");
-const TokenService = require("./services/token.service");
-const UserEntity = require("./dbentities/user.entity");
-
-
-const MassageService = require('./services/message.service');
-const ChatService = require('./services/chat.service');
-
 
 
 
@@ -25,7 +20,7 @@ module.exports = class Server {
   _onlineUsers = new Map();
 
   constructor(port) {
-    this._port = port ?? this._defaultPort;
+    this._port = port || this._defaultPort;
     this._app = express();
     this._applyMiddlewares();
     this._server = HttpServer.createServer();
@@ -39,43 +34,23 @@ module.exports = class Server {
 
 
   _applyMiddlewares() {
+    const HOST_NAME = process.env.HOST_NAME;
+    const CLIENT_PORT = process.env.CLIENT_PORT;
+
+    this._app.use(corsConfigMiddleware);
+    this._app.use(cors({
+      origin: `http://${HOST_NAME}:${CLIENT_PORT}`,
+    }));
     this._app.use(express.json());
     this._app.use(cookieParser());
     this._app.use('/api', apiRouter);
     this._app.use(errorMiddleware());
   }
 
-  _initWebSockets(webSocket = this._webSocketServer) {
+  _initWebSockets(websocketServer = this._webSocketServer) {
 
-    webSocket.on('connection', async (ws, req) => {
-      try {
-        ws.user = await verifyUser(req);
+    websocketInitialization(websocketServer);
 
-        ws.onlineUsers = this._onlineUsers;
-
-        console.log(ws.user);
-
-        ws.send(`Whats uuuuup, ${ws.user.name}!!!`);
-
-
-        // А если несколько клиентов на одном аккаунте?
-        this._onlineUsers.set(ws.user.username, ws);
-
-        ws.on('message', message => {
-          message = JSON.parse(message);
-          dispatcher(message, this._webSocketServer, ws);
-        });
-
-        ws.on('close', () => {
-          console.log('close');
-          this._onlineUsers.delete(ws.user.username);
-        });
-
-      } catch (e) {
-        ws.send(e.message);
-        ws.close();
-      }
-    });
   }
 
 
@@ -85,41 +60,4 @@ module.exports = class Server {
 
 }
 
-async function verifyUser(req) {
-  const authHeader = req.headers.authorization;
-  if (!authHeader) throw ApiException.unauthorized();
 
-  const accessToken = authHeader.split(' ')[1];
-  if (!accessToken) throw ApiException.unauthorized();
-
-  const userDataFromToken = TokenService.validateAccessToken(accessToken);
-  if (!userDataFromToken) throw ApiException.unauthorized();
-
-  const userDataQueryResult = await UserEntity.findByUsername(userDataFromToken.username);
-  if (!userDataQueryResult) throw ApiException.unauthorized();
-
-  return userDataFromToken;
-}
-
-async function dispatcher(message, webSocketServer, ws) {
-  switch (message.event) {
-    case "chat-message": {
-      const chatParticipants = await ChatService.getChatParticipants(ws.user.id, message.chatId);
-
-
-      for (let participant of chatParticipants) {
-
-        const participantWs = ws.onlineUsers.get(participant.username)
-        if (!participantWs)
-          return;
-
-        if (participantWs !== ws)
-          participantWs.send(JSON.stringify(message))
-
-      }
-
-      break;
-    }
-  }
-
-}

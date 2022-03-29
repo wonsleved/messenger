@@ -1,0 +1,38 @@
+.chat {
+  position: relative;
+  cursor: pointer;
+  white-space: nowrap;
+  padding: 4px 0 4px 10px;
+  box-shadow: inset 1px 0 0 0 @liberty-color;
+  transition: 0.3s;
+  align-items: center;
+  justify-content: space-between;
+  display: flex;
+  background-color: @message-white-color;
+  border-radius: 0 10px 10px 0;
+
+  &:hover {
+    box-shadow: inset 3px 0 0 0 @liberty-color;
+  }
+
+  &__title {
+    font-weight: 600;
+    font-size: 18px;
+    letter-spacing: 0.05em;
+    color: @liberty-color;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    text-decoration: transparent;
+    transition: 0.3s;
+    padding: 10px 0;
+  }
+
+  &__icon {
+    user-select: none;
+    -webkit-user-drag: none;
+    margin: 0 4px;
+    width: 20px;
+    height: 20px;
+  }
+
+}

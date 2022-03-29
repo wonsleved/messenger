@@ -28,5 +28,9 @@ module.exports = {
       maxAge: 2592000000,
       httpOnly: true,
     },
+    accessToken: {
+      maxAge: 1800000,
+      httpOnly: true,
+    }
   },
 };

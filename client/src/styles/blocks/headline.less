@@ -1,0 +1,44 @@
+.headline {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 50px;
+  height: @headline-height;
+
+  @media screen and (max-width: 700px) {
+    justify-content: flex-end;
+    height: @small-headline-height;
+  }
+
+  @media screen and (max-width: 400px) {
+    justify-content: center;
+  }
+
+  &__user-profile {
+    margin-right: 30px;
+    @media screen and (max-width: 700px) {
+      margin: 0;
+    }
+  }
+
+  &__logo-text {
+    font-weight: 500;
+    font-size: 40px;
+    color: @coffee-color;
+    letter-spacing: 0.05em;
+    font-style: oblique;
+    user-select: none;
+    display: block;
+
+    @media screen and (max-width: 700px) {
+      display: none;
+    }
+  }
+
+  &__auth {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    align-items: baseline;
+  }
+}
