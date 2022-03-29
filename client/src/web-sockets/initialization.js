@@ -2,6 +2,7 @@ import {dispatcher} from "./dispatcher";
 import {sendMessage} from "./send-message";
 import {getAccessToken} from "../services/access-token-action";
 import {AuthService} from "../services/auth.service";
+import {HOST_NAME} from "../config";
 
 const UNAUTHORIZED_CODE = 4001;
 const CLIENT_CLOSE = 4000;
@@ -13,14 +14,16 @@ export function wsInitialization() {
   }
 }
 
-const defaultServerAddress = '192.168.43.201';
-
-
 export function wsConfigure() {
   if (window.webSocket && window.webSocket.readyState === WebSocket.OPEN)
     window.webSocket.close(CLIENT_CLOSE);
 
-  let socket = new WebSocket(`ws://${defaultServerAddress}/ws`);
+  let socket;
+
+  if (location.protocol === 'https:')
+    socket = new WebSocket(`wss://${HOST_NAME}/ws`);
+  else
+    socket = new WebSocket(`ws://${HOST_NAME}/ws`);
 
   socket.onopen = onOpen;
 
@@ -37,7 +40,7 @@ export function wsConfigure() {
 
 
 function onOpen(event) {
-  console.log("[open] Соединение установлено");
+  // console.log("[open] Соединение установлено");
 }
 
 async function onMessage(event) {
@@ -53,7 +56,7 @@ function onError(error) {
 
 
 async function onClose(event) {
-  console.log('[close]');
+  // console.log('[close]');
   if (event.code === CLIENT_CLOSE)
     return;
 

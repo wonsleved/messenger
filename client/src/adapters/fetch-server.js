@@ -1,7 +1,8 @@
 import {ResponseException} from "../exceptions/response.exception.js";
 import 'regenerator-runtime/runtime'; // ???
+import {HOST_NAME} from "../config";
 
-const defaultServerAddress = 'http://192.168.43.201';
+const defaultServerAddress = `http://${HOST_NAME}`;
 
 export class FetchServer {
 

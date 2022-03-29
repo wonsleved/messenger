@@ -14,10 +14,11 @@
 **/azds.yaml
 **/charts
 **/docker-compose*
-**/Dockerfile*
+Dockerfile.dev
 **/node_modules
 **/npm-debug.log
 **/obj
+dist/
 **/secrets.dev.yaml
 **/values.dev.yaml
 README.md
