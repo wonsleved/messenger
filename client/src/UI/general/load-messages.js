@@ -25,7 +25,8 @@ export async function loadMessages(chatId) {
 
   messagesList.textContent = '';
   messagesList.appendChild(fragment);
-  // messagesList.scrollTop = messagesList.scrollHeight;
-  messagesList.scrollTo(0, messagesList.scrollHeight);
+  setTimeout(() => {
+    messagesList.scrollTop = messagesList.scrollHeight;
+  }, 0);
 }
 
