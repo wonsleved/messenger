@@ -5,7 +5,7 @@ export const imbeddedInputModalTemplate = (function () {
           <label for="{{inputInfo}}" class="input-field__label"> {{ labelName }} </label>
       </div>
       <button type="submit"
-              class="modal-content__button modal-button _green"
+              class="modal-content__button button _modal _green"
       >
           {{ buttonName }}
       </button>

@@ -29,14 +29,14 @@ export const contactInfoModalTemplate = (function () {
                 
                 <section class="modal-info__options">
                     <button 
-                        class="modal-button _green"
+                        class="button _modal _green"
                         onmousedown="{{ writeToUser }}",
                     >
                         Write
                     </button>
                     
                     <button 
-                        class="modal-button _red"
+                        class="button _modal _red"
                         onmousedown="{{ removeContact }}",
                     >
                         Remove contact
@@ -45,7 +45,7 @@ export const contactInfoModalTemplate = (function () {
                 </section>
                 
                 <button type="button"
-                        class="modal-button _red modal-info__close-button"
+                        class="button _modal _red modal-info__close-button"
                         onclick="{{ toggleModal }}"
                 >
                     Close

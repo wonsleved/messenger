@@ -18,7 +18,7 @@ export const imbeddedModalTemplate = (function () {
                 {{{ this.imbeddedTemplate }}}
 
                 <button type="button"
-                        class="modal-content__button modal-button _red {{buttonClass}}"
+                        class="modal-content__button button _modal _red {{buttonClass}}"
                         onclick="{{ goBack }}"
                 >
                     Back

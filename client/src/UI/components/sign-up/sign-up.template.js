@@ -10,8 +10,8 @@ export const signUpTemplate = (function () {
             <span class="headline__logo-text">Messenger</span>
 
             <div class="headline__auth">
-                <button class="auth-button _sign-in" onclick="{{ signIn }}">Sign In</button>
-                <button class="go-back-button" onclick="{{ goMain }}">Go back</button>
+                <button class="button _auth _sign-in" onclick="{{ signIn }}">Sign In</button>
+                <button class="button _out" onclick="{{ goMain }}">Go back</button>
             </div>
 
         </header>
@@ -63,7 +63,7 @@ export const signUpTemplate = (function () {
 
 
 
-                <button type="submit" class="auth-form__submit submit-button">
+                <button type="submit" class="auth-form__submit button _submit">
                     Sign Up
                 </button>
 

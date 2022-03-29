@@ -21,7 +21,7 @@ export const messengerTemplate = (function () {
 
         <main class="page__messenger">
 
-            <div class="messenger">
+            <div class="messenger _menu">
             
                 <section class="messenger__headline">
                     <button class="burger-button" onclick="{{ toggleSideMenu }}">
@@ -60,7 +60,7 @@ export const messengerTemplate = (function () {
 
                         <footer class="chats-and-contacts__footer" data-list="contacts">
                             <button 
-                                class="add-button"
+                                class="button _add"
                                 onclick="{{ openContactModal }}"
                                 >
                                 Add contact
@@ -69,7 +69,7 @@ export const messengerTemplate = (function () {
                         
                         <footer class="chats-and-contacts__footer" data-list="chats" style="display: none">
                             <button 
-                                class="add-button"
+                                class="button _add"
                                 onclick="{{ openChatModal }}"
                                 >
                                 Create chat

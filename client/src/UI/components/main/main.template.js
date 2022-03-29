@@ -9,8 +9,8 @@ export const mainTemplate = (function () {
         <span class="headline__logo-text">Messenger</span>
 
         <div class="headline__auth">
-            <button class="auth-button _sign-up" onclick="{{ signUp }}">Sign Up</button>
-            <button class="auth-button _sign-in" onclick="{{ signIn }}">Sign In</button>
+            <button class="button _auth _sign-up" onclick="{{ signUp }}">Sign Up</button>
+            <button class="button _auth _sign-in" onclick="{{ signIn }}">Sign In</button>
         </div>
 
     </header>

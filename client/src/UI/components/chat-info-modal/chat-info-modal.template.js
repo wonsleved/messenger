@@ -16,19 +16,19 @@ export const chatInfoModalTemplate = (function () {
                     this.isPrivate ? '' : (\`
                     <section class="modal-info__options">
                         <button 
-                            class="modal-button _green"
+                            class="button _modal _green"
                             onmousedown="{{ showParticipants }}"
                         >
                             Participants
                         </button>
                         <button 
-                            class="modal-button _red"
+                            class="button _modal _red"
                             onmousedown="{{ leaveChat }}"
                         >
                             Leave
                         </button>
                         <button 
-                            class="modal-button _warning"
+                            class="button _modal _warning"
                             onmousedown="{{ removeChat }}"
                         >
                             Delete chat
@@ -40,7 +40,7 @@ export const chatInfoModalTemplate = (function () {
                 }}}
                 
                 <button type="button"
-                        class="modal-button _red modal-info__close-button"
+                        class="button _modal _red modal-info__close-button"
                         onclick="{{ toggleModal }}"
                 >
                     Close

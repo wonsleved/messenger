@@ -2,7 +2,7 @@ version: "3.9"
 
 services:
   postgres:
-    container_name: postgres-prod
+    container_name: postgres
     image: postgres:14.2
     volumes:
       - postgres_data:/var/lib/postgresql/data
@@ -20,12 +20,14 @@ services:
     build:
       context: server
     image: messenger-server
-    container_name: m-server-prod
+    container_name: m-server
     env_file:
       - ./server/.env
       - .env
     networks:
       - messenger
+    volumes:
+      - ./server/app:/usr/src/app
     depends_on:
       - postgres
 
@@ -33,7 +35,7 @@ services:
     build:
       context: client
     image: messenger-client
-    container_name: m-client-prod
+    container_name: m-client
     env_file:
       - .env
     networks:
@@ -49,7 +51,7 @@ services:
       context: nginx
       dockerfile: Dockerfile
     image: messenger-nginx
-    container_name: m-nginx-prod
+    container_name: m-nginx
     env_file:
       - .env
     ports:

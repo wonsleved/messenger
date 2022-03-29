@@ -28,14 +28,14 @@ export const userInfoModalTemplate = (function () {
                 </header>
                 
                 <section class="modal-info__options">
-                    <button class="modal-button _warning" onclick="{{ logout }}">
+                    <button class="button _modal _warning" onclick="{{ logout }}">
                         Logout
                     </button>
                     
                 </section>
                 
                 <button type="button"
-                        class="modal-button _red modal-info__close-button"
+                        class="button _modal _red modal-info__close-button"
                         onclick="{{ toggleModal }}"
                 >
                     Close

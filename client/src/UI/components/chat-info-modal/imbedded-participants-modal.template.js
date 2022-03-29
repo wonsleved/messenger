@@ -4,13 +4,13 @@ export const imbeddedParticipantsModalTemplate = (function () {
         </section>
         <section class="modal-info__options">
             <button 
-                class="modal-button _green"
+                class="button _modal _green"
                 onmousedown="{{ addParticipant }}"
             >
                 Add participant
             </button>
             <button 
-                class="modal-button _red"
+                class="button _modal _red"
                 onmousedown="{{ removeParticipant }}"
             >
                 Remove participant

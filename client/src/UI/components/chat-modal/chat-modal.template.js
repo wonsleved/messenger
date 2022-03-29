@@ -20,12 +20,12 @@ export const chatModalTemplate = (function () {
                 </div>
 
                 <button type="submit"
-                        class="modal-content__button modal-button _green"
+                        class="modal-content__button button _modal _green"
                 >
                     Add
                 </button>
                 <button type="button"
-                        class="modal-content__button modal-button _red"
+                        class="modal-content__button button _modal _red"
                         onclick="{{ toggleModal }}"
                 >
                     Close
