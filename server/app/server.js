@@ -41,6 +41,7 @@ module.exports = class Server {
     this._app.use(cors({
       origin: `http://${HOST_NAME}:${CLIENT_PORT}`,
     }));
+    console.log(HOST_NAME);
     this._app.use(express.json());
     this._app.use(cookieParser());
     this._app.use('/api', apiRouter);

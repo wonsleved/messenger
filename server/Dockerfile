@@ -7,10 +7,10 @@ WORKDIR  /usr/src
 COPY  package.json package-lock.json ./
 RUN  npm install
 
-COPY  app app
-
-ENTRYPOINT  [ "npm" ]
-CMD  [ "start" ]
+#COPY  app app
 
 #ENTRYPOINT  [ "npm" ]
-#CMD  [ "run", "dev" ]
+#CMD  [ "start" ]
+
+ENTRYPOINT  [ "npm" ]
+CMD  [ "run", "dev" ]

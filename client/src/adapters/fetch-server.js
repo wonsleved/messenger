@@ -2,7 +2,13 @@ import {ResponseException} from "../exceptions/response.exception.js";
 import 'regenerator-runtime/runtime'; // ???
 import {HOST_NAME} from "../config";
 
-const defaultServerAddress = `http://${HOST_NAME}`;
+
+let defaultServerAddress;
+
+if (location.protocol === 'https:')
+  defaultServerAddress = `https://${HOST_NAME}`;
+else
+  defaultServerAddress = `http://${HOST_NAME}`;
 
 export class FetchServer {
 
@@ -10,6 +16,7 @@ export class FetchServer {
 
   constructor(serverAddress) {
     this._serverAddress = serverAddress ?? defaultServerAddress;
+    console.log(this._serverAddress);
   }
 
   GET = 'GET';
