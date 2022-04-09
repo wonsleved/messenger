@@ -26,7 +26,10 @@ echo 'BCRYPT_SALT=3' >> server/.env && \
 echo 'JWT_ACCESS_SECRET=jwtaccesssecret' >> server/.env && \
 echo 'JWT_REFRESH_SECRET=jwtrefreshsecret' >> server/.env
 
-
+pushd server && npm install && \
+popd && \
+pushd client && npm install && \
+lessc src/styles/index.less src/styles/index.css
 
 
 
