@@ -18,7 +18,6 @@ export async function dispatcher(message) {
       return updateChatsThrottled();
     }
     default: {
-      console.log(message.event);
       alert('unknown type of message');
     }
   }

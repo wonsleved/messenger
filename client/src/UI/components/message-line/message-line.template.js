@@ -9,6 +9,7 @@ export const messageLineTemplate = (function () {
                 class="message-line__input"
                 placeholder="Write message..."
                 name="content"
+                autocomplete="off"
             >
             <button
                     type="submit"

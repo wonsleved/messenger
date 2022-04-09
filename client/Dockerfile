@@ -1,4 +1,4 @@
-FROM  node:12-alpine as build
+FROM  node:12-alpine
 
 LABEL  description="Client"
 
@@ -7,15 +7,12 @@ WORKDIR  /usr/src/app
 COPY  package.json package-lock.json ./
 RUN  npm install
 
-COPY  . .
+#COPY  . .
 
-RUN npm run build
+EXPOSE  $CLIENT_PORT
 
-FROM nginx:1.16.0-alpine
+#ENTRYPOINT  [ "npm" ]
+#CMD  [ "start" ]
 
-COPY --from=build /usr/src/app/dist/ /usr/share/nginx/html/
-RUN rm /etc/nginx/conf.d/default.conf
-COPY nginx/default.conf /etc/nginx/conf.d/
-
-EXPOSE $CLIENT_PORT
-CMD ["nginx", "-g", "daemon off;"]
+ENTRYPOINT  [ "npm" ]
+CMD  [ "run", "dev", "$CLIENT_PORT" ]

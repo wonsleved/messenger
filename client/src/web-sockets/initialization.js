@@ -44,14 +44,12 @@ function onOpen(event) {
 }
 
 async function onMessage(event) {
-  console.log(event);
   const message = JSON.parse(event.data);
 
   await dispatcher(message);
 }
 
 function onError(error) {
-  console.log(error.message);
 }
 
 
@@ -60,7 +58,6 @@ async function onClose(event) {
   if (event.code === CLIENT_CLOSE)
     return;
 
-  console.log(event);
   if (event.code === UNAUTHORIZED_CODE) {
     const token = await AuthService.refresh();
     if (token)
@@ -69,8 +66,6 @@ async function onClose(event) {
       return;
   }
 
-
-  console.log('Try to reopen...');
   setTimeout(tryReopen, 2000);
 }
 
