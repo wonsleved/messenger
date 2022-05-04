@@ -1,1 +1,0 @@
-export {Mediator} from './mediator.js';

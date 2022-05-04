@@ -4,3 +4,4 @@
 client/dist/
 postgresdata/
 /client/.cache/
+**/build/

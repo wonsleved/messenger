@@ -1,0 +1,30 @@
+.tabs-list {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+
+  &__tab {
+    text-align: center;
+    padding: 10px 0;
+    width: 50%;
+    position: relative;
+    color: @coffee-color;
+    cursor: pointer;
+    user-select: none;
+    outline: none;
+    border: none;
+    background: none;
+
+    &._active {
+      border-bottom: 2px solid @purple-color;
+      color: @purple-color;
+      font-weight: 500;
+    }
+
+    &:not(._active) {
+      &:hover {
+        color: @liberty-color;
+      }
+    }
+  }
+}

@@ -46,7 +46,7 @@ services:
       - server-api
       - postgres
     volumes:
-      - ./client:/usr/src/app
+      - ./client/app:/usr/src/app
 
   nginx:
     build:

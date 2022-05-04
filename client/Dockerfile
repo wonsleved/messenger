@@ -4,15 +4,11 @@ LABEL  description="Client"
 
 WORKDIR  /usr/src/app
 
-COPY  package.json package-lock.json ./
-RUN  npm install
-
-#COPY  . .
+COPY  app/package.json app/package-lock.json ./
+RUN npm install
+RUN npm install -g less
 
 EXPOSE  $CLIENT_PORT
 
-#ENTRYPOINT  [ "npm" ]
-#CMD  [ "start" ]
-
 ENTRYPOINT  [ "npm" ]
-CMD  [ "run", "dev", "$CLIENT_PORT" ]
+CMD  [ "run", "start" ]
