@@ -1,5 +1,7 @@
 # messenger
-Web messenger project. VanillaJs, NodeJs, Postgres, Docker
+Web messenger project. VanillaJs, NodeJs, Postgres, Docker, React, Typescript
+
+Frontend with React + Typescript you could find in branch **client-react**
 
 Example you could view at [wonsi.ru](https://wonsi.ru)
 
