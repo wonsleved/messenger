@@ -3,8 +3,6 @@ Web messenger project. VanillaJs, NodeJs, Postgres, Docker
 
 Frontend with React + Typescript you could find in branch **client-react**
 
-Example you could view at [wonsi.ru](https://wonsi.ru)
-
 ## Dependencies for installation
 
 - Node package manager (npm)
